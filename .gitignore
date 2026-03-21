@@ -1,0 +1,66 @@
+# =============================================================================
+# CRM Tools Extension - Git Ignore
+# =============================================================================
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE and Editor Files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-*
+
+# Node.js (if used for building/packaging)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build Outputs
+*.zip
+*.crx
+*.xpi
+*.tgz
+dist/
+build/
+release/
+
+# Environment and Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets/
+credentials/
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+.cache/
+
+# Logs
+*.log
+logs/
+
+# Test Coverage
+coverage/
+.nyc_output/
+
+# Archive (old/deprecated features)
+.Archive/
+
+# =============================================================================
+# Keep these files
+# =============================================================================
+# Do NOT ignore manifest.json, popup.html, widget JS files, etc.
+# They are the actual extension source

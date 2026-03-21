@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Tools Integration Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .demo-button {
+            background: #5D5CDE;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background 0.2s;
+        }
+        
+        .demo-button:hover {
+            background: #4B4BC8;
+        }
+        
+        .model-dropdown {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px;
+            min-width: 200px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #5D5CDE;
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-active {
+            background: #27ae60;
+        }
+        
+        .status-inactive {
+            background: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 CRM Tools Integration Test</h1>
+            <p>This page simulates the CRM environment to test the chat assistant and tools integration</p>
+        </div>
+        
+        <div class="demo-section">
+            <h3>🚀 Load CRM Tools Widget</h3>
+            <p>Click the button below to load the CRM Tools Widget (simulates the extension loading on the CRM page):</p>
+            <button class="demo-button" onclick="loadCRMTools()">Load CRM Tools Widget</button>
+            <button class="demo-button" onclick="removeCRMTools()">Remove Widget</button>
+        </div>
+        
+        <div class="demo-section">
+            <h3>📋 Test Model Dropdowns (for Enhanced Search)</h3>
+            <p>These dropdowns will be enhanced by the search functionality:</p>
+            <select class="model-dropdown" id="model_c">
+                <option value="">Select Model...</option>
+                <option value="DNR1007XR">DNR1007XR - Digital Network Recorder</option>
+                <option value="DNR2008XE">DNR2008XE - Advanced Network System</option>
+                <option value="DRT5009ZX">DRT5009ZX - Digital Recording Terminal</option>
+                <option value="DXR3004MK">DXR3004MK - Digital Extension Recorder</option>
+                <option value="DNR4012QW">DNR4012QW - Quad Network Recorder</option>
+                <option value="DRT7015ST">DRT7015ST - Security Terminal</option>
+            </select>
+            
+            <select class="model-dropdown">
+                <option value="">Choose Product...</option>
+                <option value="CAM101HD">CAM101HD - HD Camera System</option>
+                <option value="CAM205IP">CAM205IP - IP Camera Module</option>
+                <option value="CAM309NV">CAM309NV - Night Vision Camera</option>
+                <option value="CAM412PT">CAM412PT - Pan/Tilt Camera</option>
+            </select>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h4>Chat Assistant</h4>
+                <p><span class="status-indicator status-inactive" id="chatStatus"></span>Interactive help for CRM tasks</p>
+                <small>Provides context-aware assistance and guidance</small>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h4>Enhanced Search</h4>
+                <p><span class="status-indicator status-inactive" id="searchStatus"></span>Smart dropdown search</p>
+                <small>Adds search functionality to model selectors</small>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h4>Quick Copy Tools</h4>
+                <p><span class="status-indicator status-inactive" id="copyStatus"></span>Date and URL copying</p>
+                <small>One-click copying of common data</small>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h4>Script Management</h4>
+                <p><span class="status-indicator status-inactive" id="scriptStatus"></span>Custom script execution</p>
+                <small>Manage and run custom CRM scripts</small>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>📝 Test Instructions</h3>
+            <ol>
+                <li><strong>Load Tools:</strong> Click "Load CRM Tools Widget" to inject the floating tools widget</li>
+                <li><strong>Open Tools:</strong> Click the 🔧 icon that appears in the bottom-right</li>
+                <li><strong>Test Chat:</strong> Click "💬 Chat Assistant" and try different messages</li>
+                <li><strong>Test Search:</strong> Click "🔍 Enhanced Search" then use the dropdown search boxes</li>
+                <li><strong>Test Copy:</strong> Try the date and URL copy functions</li>
+                <li><strong>Drag Chat:</strong> Click and drag the chat bubble header to move it around</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Load the CRM Tools Widget script -->
+    <script src="crm-tools-widget.js"></script>
+    
+    <script>
+        function loadCRMTools() {
+            // Check if already loaded
+            if (window.crmTools) {
+                alert('CRM Tools Widget is already loaded!');
+                updateStatusIndicators(true);
+                return;
+            }
+            
+            // Simulate loading the extension
+            try {
+                // The widget should initialize automatically when the script loads
+                setTimeout(() => {
+                    if (window.crmTools) {
+                        alert('✅ CRM Tools Widget loaded successfully!\n\nLook for the 🔧 icon in the bottom-right corner.');
+                        updateStatusIndicators(true);
+                    } else {
+                        alert('❌ Failed to load CRM Tools Widget. Check console for errors.');
+                    }
+                }, 100);
+            } catch (error) {
+                alert('Error loading CRM Tools: ' + error.message);
+            }
+        }
+        
+        function removeCRMTools() {
+            // Remove the tools elements
+            const mainButton = document.querySelector('[style*="position: fixed"][style*="right: 20px"][style*="bottom: 20px"]');
+            const toolsContainer = document.querySelector('[style*="position: fixed"][style*="right: 85px"]');
+            const chatBubble = document.getElementById('crmChatBubble');
+            
+            if (mainButton) mainButton.remove();
+            if (toolsContainer) toolsContainer.remove();
+            if (chatBubble) chatBubble.remove();
+            
+            // Reset window object
+            window.crmTools = null;
+            
+            updateStatusIndicators(false);
+            alert('CRM Tools Widget removed');
+        }
+        
+        function updateStatusIndicators(active) {
+            const indicators = ['chatStatus', 'searchStatus', 'copyStatus', 'scriptStatus'];
+            indicators.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.className = `status-indicator ${active ? 'status-active' : 'status-inactive'}`;
+                }
+            });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if tools are already loaded
+            setTimeout(() => {
+                updateStatusIndicators(!!window.crmTools);
+            }, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Chat Assistant - Standalone Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-button {
+            background: #5D5CDE;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background 0.2s;
+        }
+        
+        .test-button:hover {
+            background: #4B4BC8;
+        }
+        
+        .demo-note {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .demo-note h3 {
+            margin-top: 0;
+            color: #5D5CDE;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>💬 CRM Chat Assistant</h1>
+            <p>Standalone test version for development and preview</p>
+        </div>
+        
+        <div style="text-align: center;">
+            <button class="test-button" onclick="createChatBubble()">Launch Chat Assistant</button>
+            <button class="test-button" onclick="closeChatBubble()">Close Chat</button>
+        </div>
+        
+        <div class="demo-note">
+            <h3>📋 Test Features:</h3>
+            <ul>
+                <li><strong>Drag & Drop:</strong> Click and drag the header to move the chat bubble</li>
+                <li><strong>Auto-responses:</strong> Try messages like "hello", "help", "search", "date"</li>
+                <li><strong>Typing indicator:</strong> Shows while processing responses</li>
+                <li><strong>Message history:</strong> Scroll through conversation</li>
+                <li><strong>Responsive design:</strong> Works on different screen sizes</li>
+            </ul>
+            
+            <h3>🔧 Integration Notes:</h3>
+            <p>This chat assistant is integrated into the CRM Tools Extension and will appear as a floating bubble when accessed through the tools widget on CRM pages.</p>
+            
+            <h3>🤖 Poe API Integration:</h3>
+            <p>The assistant uses <strong>Poe's Embed API</strong> to communicate with the <code>@Helpdesk-Assist-v1</code> bot:</p>
+            <ul>
+                <li><strong>Live API:</strong> When embedded in a Poe canvas app, uses real AI responses</li>
+                <li><strong>Fallback:</strong> When Poe API unavailable, uses pre-programmed responses</li>
+                <li><strong>Streaming:</strong> Supports real-time response streaming from the bot</li>
+            </ul>
+            <p><em>Note: This standalone version will use fallback responses unless loaded within a Poe environment.</em></p>
+        </div>
+    </div>
+
+    <script>
+        function createChatBubble() {
+            // Remove existing bubble if present
+            const existing = document.getElementById('crmChatBubble');
+            if (existing) {
+                existing.remove();
+            }
+
+            // Create chat bubble container
+            const chatBubble = document.createElement('div');
+            chatBubble.id = 'crmChatBubble';
+            chatBubble.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 400px;
+                height: 600px;
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+                z-index: 9999;
+                overflow: hidden;
+                font-family: system-ui, -apple-system, sans-serif;
+                border: 1px solid #e0e0e0;
+                display: flex;
+                flex-direction: column;
+            `;
+
+            // Chat header
+            const chatHeader = document.createElement('div');
+            chatHeader.style.cssText = `
+                background: linear-gradient(135deg, #5D5CDE 0%, #4B4BC8 100%);
+                color: white;
+                padding: 15px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                user-select: none;
+                cursor: move;
+            `;
+            
+            const headerContent = document.createElement('div');
+            headerContent.style.cssText = 'display: flex; align-items: center; gap: 10px;';
+            headerContent.innerHTML = `
+                <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold;">HA</div>
+                <div>
+                    <div style="font-weight: bold; font-size: 16px;">Helpdesk Assistant</div>
+                    <div style="font-size: 12px; opacity: 0.9;">Ready to help you</div>
+                </div>
+            `;
+
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.style.cssText = `
+                background: none;
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s;
+            `;
+            closeBtn.addEventListener('click', () => {
+                chatBubble.remove();
+            });
+            closeBtn.addEventListener('mouseenter', () => {
+                closeBtn.style.background = 'rgba(255,255,255,0.1)';
+            });
+            closeBtn.addEventListener('mouseleave', () => {
+                closeBtn.style.background = 'none';
+            });
+
+            chatHeader.appendChild(headerContent);
+            chatHeader.appendChild(closeBtn);
+
+            // Chat messages container
+            const chatContainer = document.createElement('div');
+            chatContainer.id = 'crmChatContainer';
+            chatContainer.style.cssText = `
+                flex: 1;
+                overflow-y: auto;
+                padding: 20px;
+                background: #f8f9fa;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            `;
+
+            // Initial welcome message
+            const welcomeMessage = document.createElement('div');
+            welcomeMessage.style.cssText = `
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                animation: fadeInUp 0.3s ease-out;
+            `;
+            welcomeMessage.innerHTML = `
+                <div style="width: 32px; height: 32px; background: #5D5CDE; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0;">HA</div>
+                <div style="background: white; border-radius: 15px; padding: 12px 16px; max-width: 80%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 14px;">
+                    Hello! I'm your Helpdesk Assistant. How can I help you today?
+                </div>
+            `;
+            chatContainer.appendChild(welcomeMessage);
+
+            // Typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.id = 'crmTypingIndicator';
+            typingIndicator.style.cssText = `
+                display: none;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 0 20px;
+            `;
+            typingIndicator.innerHTML = `
+                <div style="width: 32px; height: 32px; background: #5D5CDE; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">HA</div>
+                <div style="background: white; border-radius: 15px; padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="display: flex; gap: 4px;">
+                        <div style="width: 8px; height: 8px; background: #ccc; border-radius: 50%; animation: pulse 1.5s ease-in-out infinite;"></div>
+                        <div style="width: 8px; height: 8px; background: #ccc; border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; animation-delay: 0.2s;"></div>
+                        <div style="width: 8px; height: 8px; background: #ccc; border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; animation-delay: 0.4s;"></div>
+                    </div>
+                </div>
+            `;
+
+            // Message input area
+            const inputArea = document.createElement('div');
+            inputArea.style.cssText = `
+                border-top: 1px solid #e0e0e0;
+                padding: 15px 20px;
+                background: white;
+            `;
+
+            const inputForm = document.createElement('form');
+            inputForm.id = 'crmChatForm';
+            inputForm.style.cssText = 'display: flex; gap: 10px; align-items: center;';
+
+            const messageInput = document.createElement('input');
+            messageInput.id = 'crmMessageInput';
+            messageInput.type = 'text';
+            messageInput.placeholder = 'Type your message...';
+            messageInput.style.cssText = `
+                flex: 1;
+                padding: 12px 16px;
+                border: 1px solid #ddd;
+                border-radius: 25px;
+                outline: none;
+                font-size: 14px;
+                transition: border-color 0.2s;
+            `;
+            messageInput.addEventListener('focus', () => {
+                messageInput.style.borderColor = '#5D5CDE';
+            });
+            messageInput.addEventListener('blur', () => {
+                messageInput.style.borderColor = '#ddd';
+            });
+
+            const sendBtn = document.createElement('button');
+            sendBtn.id = 'crmSendBtn';
+            sendBtn.type = 'submit';
+            sendBtn.style.cssText = `
+                background: #5D5CDE;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                color: white;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s;
+            `;
+            sendBtn.innerHTML = `
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                </svg>
+            `;
+            sendBtn.addEventListener('mouseenter', () => {
+                sendBtn.style.background = '#4B4BC8';
+            });
+            sendBtn.addEventListener('mouseleave', () => {
+                sendBtn.style.background = '#5D5CDE';
+            });
+
+            inputForm.appendChild(messageInput);
+            inputForm.appendChild(sendBtn);
+            inputArea.appendChild(inputForm);
+
+            // Assemble chat bubble
+            chatBubble.appendChild(chatHeader);
+            chatBubble.appendChild(chatContainer);
+            chatBubble.appendChild(typingIndicator);
+            chatBubble.appendChild(inputArea);
+
+            // Add drag functionality
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
+
+            chatHeader.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                const rect = chatBubble.getBoundingClientRect();
+                startLeft = rect.left;
+                startTop = rect.top;
+                chatHeader.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                let newLeft = startLeft + deltaX;
+                let newTop = startTop + deltaY;
+                
+                // Keep within viewport
+                newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - chatBubble.offsetWidth));
+                newTop = Math.max(0, Math.min(newTop, window.innerHeight - chatBubble.offsetHeight));
+                
+                chatBubble.style.left = newLeft + 'px';
+                chatBubble.style.top = newTop + 'px';
+                chatBubble.style.right = 'auto';
+                chatBubble.style.bottom = 'auto';
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    chatHeader.style.cursor = 'move';
+                }
+            });
+
+            // Chat functionality
+            let isProcessing = false;
+
+            inputForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                if (isProcessing) return;
+                
+                const message = messageInput.value.trim();
+                if (!message) return;
+                
+                addUserMessage(message, chatContainer);
+                messageInput.value = '';
+                
+                sendMessageToBot(message, chatContainer, typingIndicator);
+            });
+
+            // Auto-focus input
+            setTimeout(() => messageInput.focus(), 100);
+
+            document.body.appendChild(chatBubble);
+
+            // Register Poe handler for bot responses
+            if (window.Poe) {
+                window.Poe.registerHandler("standalone-helpdesk-handler", (result) => {
+                    const response = result.responses[0];
+                    
+                    if (response.status === "error") {
+                        hideTypingIndicator(typingIndicator);
+                        addBotMessage("Sorry, I encountered an error. Please try again.", chatContainer, true);
+                        resetProcessingState();
+                    } else if (response.status === "incomplete") {
+                        hideTypingIndicator(typingIndicator);
+                        updateBotMessage(response.content, chatContainer);
+                    } else if (response.status === "complete") {
+                        updateBotMessage(response.content, chatContainer);
+                        resetProcessingState();
+                    }
+                });
+            }
+        }
+
+        function closeChatBubble() {
+            const existing = document.getElementById('crmChatBubble');
+            if (existing) {
+                existing.remove();
+            }
+        }
+
+        function addUserMessage(message, container) {
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                display: flex;
+                justify-content: flex-end;
+                animation: fadeInUp 0.3s ease-out;
+            `;
+            messageDiv.innerHTML = `
+                <div style="background: #5D5CDE; color: white; border-radius: 15px; padding: 12px 16px; max-width: 80%; font-size: 14px;">
+                    ${escapeHtml(message)}
+                </div>
+            `;
+            container.appendChild(messageDiv);
+            scrollToBottom(container);
+        }
+
+        function addBotMessage(message, container, isError = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'standalone-chat-message'; // Add class for identification
+            messageDiv.style.cssText = `
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                animation: fadeInUp 0.3s ease-out;
+            `;
+            messageDiv.innerHTML = `
+                <div style="width: 32px; height: 32px; background: #5D5CDE; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0;">HA</div>
+                <div style="background: white; border-radius: 15px; padding: 12px 16px; max-width: 80%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 14px; ${isError ? 'border-left: 4px solid #e74c3c;' : ''}" class="standalone-bot-message-content">
+                    ${escapeHtml(message)}
+                </div>
+            `;
+            container.appendChild(messageDiv);
+            scrollToBottom(container);
+            return messageDiv;
+        }
+
+        function updateBotMessage(content, container) {
+            let lastBotMessage = container.querySelector('.standalone-chat-message:last-child .standalone-bot-message-content');
+            if (!lastBotMessage) {
+                const messageDiv = addBotMessage(content, container);
+                lastBotMessage = messageDiv.querySelector('.standalone-bot-message-content');
+            } else {
+                lastBotMessage.textContent = content;
+            }
+            scrollToBottom(container);
+        }
+
+        function resetProcessingState() {
+            const sendBtn = document.getElementById('crmSendBtn');
+            const messageInput = document.getElementById('crmMessageInput');
+            if (sendBtn) sendBtn.disabled = false;
+            if (messageInput) messageInput.disabled = false;
+        }
+
+        function showTypingIndicator(indicator) {
+            indicator.style.display = 'flex';
+            scrollToBottom(indicator.parentElement);
+        }
+
+        function hideTypingIndicator(indicator) {
+            indicator.style.display = 'none';
+        }
+
+        function scrollToBottom(container) {
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function sendMessageToBot(message, container, typingIndicator) {
+            const sendBtn = document.getElementById('crmSendBtn');
+            const messageInput = document.getElementById('crmMessageInput');
+            
+            // Set processing state
+            sendBtn.disabled = true;
+            messageInput.disabled = true;
+            showTypingIndicator(typingIndicator);
+
+            try {
+                // Check if Poe API is available
+                if (window.Poe) {
+                    // Use Poe Embed API to send message to Helpdesk-Assist-v1 bot
+                    await window.Poe.sendUserMessage(
+                        `@Helpdesk-Assist-v1 ${message}`,
+                        {
+                            handler: "standalone-helpdesk-handler",
+                            stream: true,
+                            openChat: false
+                        }
+                    );
+                } else {
+                    // Fallback to simulated response if Poe API not available
+                    hideTypingIndicator(typingIndicator);
+                    let response = generateResponse(message);
+                    addBotMessage(response, container);
+                    sendBtn.disabled = false;
+                    messageInput.disabled = false;
+                }
+                
+            } catch (error) {
+                hideTypingIndicator(typingIndicator);
+                addBotMessage("Sorry, I couldn't process your request. Please try again.", container, true);
+                console.error('Chat error:', error);
+                sendBtn.disabled = false;
+                messageInput.disabled = false;
+            }
+        }
+
+        function generateResponse(message) {
+            const lowerMsg = message.toLowerCase();
+            
+            if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
+                return "Hello! How can I assist you with your CRM tasks today?";
+            } else if (lowerMsg.includes('help')) {
+                return "I'm here to help! I can assist with CRM navigation, data entry tips, troubleshooting, and general questions. What do you need help with?";
+            } else if (lowerMsg.includes('search') || lowerMsg.includes('find')) {
+                return "You can use the Enhanced Search tool from the CRM Tools panel to quickly find models. Would you like me to guide you through using it?";
+            } else if (lowerMsg.includes('date') || lowerMsg.includes('time')) {
+                const today = new Date();
+                const formattedDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+                return `Today's date is ${formattedDate}. You can use the 'Copy Date' tool to quickly copy it to your clipboard.`;
+            } else if (lowerMsg.includes('model') || lowerMsg.includes('product')) {
+                return "For model searches, I recommend using the Enhanced Search feature. It adds search functionality to dropdown menus, making it easier to find specific models quickly.";
+            } else if (lowerMsg.includes('test') || lowerMsg.includes('demo')) {
+                return "This is a demo version of the chat assistant! In the real CRM environment, I'll have access to more specific tools and information to help you with your tasks.";
+            } else {
+                return "I understand you're asking about: \"" + message + "\". Could you provide more details so I can better assist you with your CRM needs?";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,793 @@
+{
+  "url": "https://crm.nexgenexpert.com/index.php?action=ajaxui#ajaxUILoc=index.php%3Fmodule%3DNexGe_NG_Customers%26action%3DEditView%26return_module%3DNexGe_NG_Customers%26return_action%3DDetailView",
+  "title": "CREATE » Customers » Nexgen CRM",
+  "timestamp": "2026-03-20T14:58:49.662Z",
+  "elements": {
+    "spans": 119,
+    "divs": 149,
+    "inputs": 57,
+    "textareas": 0,
+    "buttons": 29,
+    "links": 106,
+    "tables": 1,
+    "iframes": 1
+  },
+  "phoneNumbers": [],
+  "emails": [],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "",
+      "id": "ajaxUI-history-field",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "NexGe_NG_Customers",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "record",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "isDuplicate",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "return_module",
+      "id": "",
+      "placeholder": "",
+      "value": "NexGe_NG_Customers",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "return_action",
+      "id": "",
+      "placeholder": "",
+      "value": "DetailView",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "return_id",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module_tab",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "contact_role",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "relate_to",
+      "id": "",
+      "placeholder": "",
+      "value": "NexGe_NG_Customers",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "relate_id",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "offset",
+      "id": "",
+      "placeholder": "",
+      "value": "1",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "button",
+      "id": "SAVE",
+      "placeholder": "",
+      "value": "Save",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "button",
+      "name": "button",
+      "id": "CANCEL",
+      "placeholder": "",
+      "value": "Cancel",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "phone",
+      "id": "phone",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "phone_number2_c",
+      "id": "phone_number2_c",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "name",
+      "id": "name",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "last_name",
+      "id": "last_name",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "email",
+      "id": "email",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "email2_c",
+      "id": "email2_c",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "address",
+      "id": "address",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "zip",
+      "id": "zip",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "city",
+      "id": "city",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "id": "",
+      "placeholder": "Search",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "state",
+      "id": "state",
+      "placeholder": "",
+      "value": "AA",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "button",
+      "id": "SAVE",
+      "placeholder": "",
+      "value": "Save",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "button",
+      "name": "button",
+      "id": "CANCEL",
+      "placeholder": "",
+      "value": "Cancel",
+      "visible": true,
+      "disabled": false
+    }
+  ],
+  "searchBars": [
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    }
+  ],
+  "fillableFields": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "phone",
+      "id": "phone",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "phone_number2_c",
+      "id": "phone_number2_c",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "name",
+      "id": "name",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "last_name",
+      "id": "last_name",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "email",
+      "id": "email",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "email2_c",
+      "id": "email2_c",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "address",
+      "id": "address",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "zip",
+      "id": "zip",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "city",
+      "id": "city",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "id": "",
+      "placeholder": "Search",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "state",
+      "id": "state",
+      "placeholder": "",
+      "value": "AA",
+      "visible": true,
+      "disabled": false
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Clean Chat Interface Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .test-header h1 {
+            color: #5D5CDE;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #5D5CDE 0%, #4B4BC8 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(93, 92, 222, 0.3);
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(93, 92, 222, 0.4);
+        }
+        
+        .improvement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .improvement-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .improvement-card h3 {
+            margin-top: 0;
+            color: #5D5CDE;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .before, .after {
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid;
+        }
+        
+        .before {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+        
+        .after {
+            background: #e8f5e8;
+            border-color: #4caf50;
+        }
+        
+        .sample-transcript {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .feature-highlight {
+            background: #e8f4fd;
+            border-left: 4px solid #5D5CDE;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎨 Clean Chat Interface</h1>
+            <p style="color: #666; font-size: 18px;">Improved Formatting & User Experience</p>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button class="test-button" onclick="startCleanChat()">🚀 Launch Clean Chat</button>
+            <button class="test-button" onclick="testWithSampleTranscript()">📝 Test with Sample Transcript</button>
+            <button class="test-button" onclick="showFormattingDemo()">🎨 View Formatting Demo</button>
+        </div>
+
+        <div class="feature-highlight">
+            <h3 style="margin: 0 0 15px 0; color: #5D5CDE;">✨ Interface Improvements Made:</h3>
+            <ul style="margin: 0; padding-left: 20px;">
+                <li><strong>Clean Message Formatting:</strong> Properly formatted bot responses with better spacing</li>
+                <li><strong>Markdown Support:</strong> **Bold**, *italic*, `code`, and code blocks render correctly</li>
+                <li><strong>Summary Cards:</strong> Helpdesk summaries displayed in organized, styled cards</li>
+                <li><strong>Copy Buttons:</strong> Easy one-click copying of formatted summaries</li>
+                <li><strong>Better Scrolling:</strong> Smooth scrolling with custom scrollbar styling</li>
+                <li><strong>Visual Hierarchy:</strong> Clear distinction between user and bot messages</li>
+            </ul>
+        </div>
+
+        <div class="before-after">
+            <div class="before">
+                <h4>❌ Before: Cluttered</h4>
+                <ul>
+                    <li>Raw text responses</li>
+                    <li>No formatting</li>
+                    <li>Hard to read summaries</li>
+                    <li>No copy functionality</li>
+                    <li>Poor message spacing</li>
+                </ul>
+            </div>
+            <div class="after">
+                <h4>✅ After: Clean</h4>
+                <ul>
+                    <li>Formatted responses</li>
+                    <li>Proper markdown rendering</li>
+                    <li>Organized summary cards</li>
+                    <li>One-click copy buttons</li>
+                    <li>Better visual hierarchy</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="improvement-grid">
+            <div class="improvement-card">
+                <h3>🎨 Message Formatting</h3>
+                <p><strong>Smart Text Processing:</strong> Automatically converts markdown formatting to HTML</p>
+                <p><strong>Summary Cards:</strong> Helpdesk summaries displayed in styled containers</p>
+                <p><strong>Code Highlighting:</strong> Inline code and code blocks with proper styling</p>
+            </div>
+            
+            <div class="improvement-card">
+                <h3>📋 Copy Functionality</h3>
+                <p><strong>Copy Buttons:</strong> Added to all formatted summaries</p>
+                <p><strong>Success Feedback:</strong> Visual confirmation when copying</p>
+                <p><strong>Clean Text:</strong> Copies clean text without HTML formatting</p>
+            </div>
+            
+            <div class="improvement-card">
+                <h3>🎯 Better UX</h3>
+                <p><strong>Proper Spacing:</strong> Consistent margins between messages</p>
+                <p><strong>Smooth Scrolling:</strong> Auto-scroll to new messages</p>
+                <p><strong>Custom Scrollbar:</strong> Styled scrollbar for better appearance</p>
+            </div>
+            
+            <div class="improvement-card">
+                <h3>📱 Responsive Design</h3>
+                <p><strong>Word Wrapping:</strong> Long messages wrap properly</p>
+                <p><strong>Mobile Friendly:</strong> Works well on different screen sizes</p>
+                <p><strong>Consistent Styling:</strong> Unified appearance across all messages</p>
+            </div>
+        </div>
+
+        <div class="sample-transcript">
+            <h4>📝 Sample Transcript for Testing:</h4>
+            <div>Thank you for calling JVC Kenwood. This one how may I assist you today? Yeah. Hey, Warren. So why do they keep sending me back to your old department? Uh, when I'm, when they ask me to leave a voicemail, press 1, I leave a voice, I press 1 and it do the automated system, it sends me right back to you guys, which then you send me back to communications. It's an infant's loop. I'm trying to talk to a Technical Support person on one of your products. I need to buy a piece of equipment to go with it and I can't find any credible information online, so I figured you guys would know your product better than anyone. Did you leave them a voicemail Sir? Support person, how do I can't? It tells me to leave him a voicemail. I go to leave a voicemail, it says leave press 1 and it tells me what I can do is I'll go ahead and get down your information here, Sir, and then see if I can get a supervisor to relay. The information to communications and give you a call back. What is your full name, Sir? Anthony Galletto, GALLEGTO. EGTO. The best e-mail for you? Anthony dot Galletto. That's GALLETTO at. Sbcglobal.net. And what is the product that you're calling about? I have a handy talky one of your mobile radios. The D74A. All right, Sir, I'll go ahead and get this to supervisor to review and then they'll they'll go ahead and contact. Communications through e-mail, I assume, Right through e-mail, but I do have your phone number here as well, so they'll relay that. Yeah, yeah, OK. I appreciate that. e-mail would be best because that way. I lot of my phone numbers go to spam if I if not a good contact. Alright Sir, I'll go ahead and leave that noted. Already listening? Thank you. Yeah, Have a good day. Thank you.</div>
+        </div>
+    </div>
+
+    <!-- Include the main CRM Tools Widget script -->
+    <script src="crm-tools-widget.js"></script>
+    
+    <script>
+        let crmWidget = null;
+        
+        function startCleanChat() {
+            if (!crmWidget) {
+                crmWidget = new CRMToolsWidget();
+            }
+            
+            // Open the chat tool
+            const chatTool = crmWidget.tools.find(tool => tool.id === 'chat-assistant');
+            if (chatTool && chatTool.action) {
+                chatTool.action();
+            }
+        }
+        
+        function testWithSampleTranscript() {
+            startCleanChat();
+            
+            // Wait for chat to open, then populate with sample transcript
+            setTimeout(() => {
+                const messageInput = document.getElementById('crmMessageInput');
+                if (messageInput) {
+                    const sampleText = "Thank you for calling JVC Kenwood. This one how may I assist you today? Yeah. Hey, Warren. So why do they keep sending me back to your old department? Uh, when I'm, when they ask me to leave a voicemail, press 1, I leave a voice, I press 1 and it do the automated system, it sends me right back to you guys, which then you send me back to communications. It's an infant's loop. I'm trying to talk to a Technical Support person on one of your products. I need to buy a piece of equipment to go with it and I can't find any credible information online, so I figured you guys would know your product better than anyone. What is your full name, Sir? Anthony Galletto, GALLEGTO. EGTO. The best e-mail for you? Anthony dot Galletto. That's GALLETTO at. Sbcglobal.net. And what is the product that you're calling about? I have a handy talky one of your mobile radios. The D74A.";
+                    
+                    messageInput.value = sampleText;
+                    messageInput.focus();
+                    
+                    alert('📝 Sample transcript loaded! Press Enter or click Send to process it and see the clean formatting.');
+                }
+            }, 1000);
+        }
+        
+        function showFormattingDemo() {
+            if (!crmWidget) {
+                crmWidget = new CRMToolsWidget();
+            }
+            
+            const demo = `
+# 📋 **HELPDESK CONVERSATION SUMMARY**
+
+**Subject Line:** Customer service routing issue preventing access to technical support
+
+**Customer:** Anthony Galletto
+**Phone:** [Customer Phone Number]  
+**Email:** anthony.galletto@sbcglobal.net
+**Address:** [Customer Address]
+**Business Name:** [Business Name]
+**Date of Purchase:** [Purchase Date]
+**Model number:** D74A
+
+**Short Summary Paragraph:**
+Date: 08/07/2025
+I assisted a customer today with a customer service routing issue preventing access to technical support. I escalated to supervisor for direct communication with technical support department. -Agent
+
+---
+*This summary was auto-generated from the conversation transcript. Please review and edit as needed.*
+            `;
+            
+            alert('🎨 Formatting Demo: The chat will now show how clean summaries look with proper formatting, copy buttons, and organized layout!');
+            startCleanChat();
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎨 Clean Chat Interface Test Page Loaded');
+        });
+    </script>
+</body>
+</html>

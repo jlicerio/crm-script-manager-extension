@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Call Dependency Learning Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .row { margin: 10px 0; }
+    label { display: inline-block; width: 180px; }
+    select { min-width: 280px; padding: 6px; }
+    #results { margin-top: 20px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; white-space: pre-wrap; }
+    .ok { color: #0a7a22; }
+    .fail { color: #b00020; }
+  </style>
+</head>
+<body>
+  <h1>Call Reason Mapping Automation Test</h1>
+  <p>This test verifies the new learned mapping behavior in crm-tools-widget.js.</p>
+
+  <div class="row">
+    <label for="account_type_c">Account Type</label>
+    <select id="account_type_c" name="account_type_c">
+      <option value="">---Select---</option>
+      <option value="jvc">JVC</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="communication_type_c">Communication Type</label>
+    <select id="communication_type_c" name="communication_type_c">
+      <option value="">---Select---</option>
+      <option value="call">Call</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="call_category_c">Call Category</label>
+    <select id="call_category_c" name="call_category_c">
+      <option value="">-----Select Category List------</option>
+      <option value="500">Customer Service (500)</option>
+      <option value="520">Product/Tech Support (520)</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="call_action_c">Call Action</label>
+    <select id="call_action_c" name="call_action_c">
+      <option value="">------Select Action------</option>
+      <option value="oper_info">Provided Oper/Tech Info</option>
+      <option value="escalated">Escalated to Supervisor</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="call_reason_c">Call Reason</label>
+    <select id="call_reason_c" name="call_reason_c">
+      <option value="">--Select Reason--</option>
+      <option value="how_to">How to Use Product</option>
+      <option value="repair">Repair Request</option>
+    </select>
+  </div>
+
+  <div id="results">Running test...</div>
+
+  <script src="../crm-tools-chrome-store/crm-tools-widget.js"></script>
+  <script>
+    (function runTest() {
+      const out = document.getElementById('results');
+      const results = [];
+
+      function log(msg, pass) {
+        results.push({ msg, pass });
+      }
+
+      function change(select, value) {
+        select.value = value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      const account = document.getElementById('account_type_c');
+      const comm = document.getElementById('communication_type_c');
+      const category = document.getElementById('call_category_c');
+      const action = document.getElementById('call_action_c');
+      const reason = document.getElementById('call_reason_c');
+
+      // Clear old learned data
+      localStorage.removeItem('crmCallReasonMappingsV1');
+
+      // Seed context
+      change(account, 'jvc');
+      change(comm, 'call');
+
+      // Learn mapping: how_to -> (520 + oper_info)
+      change(category, '520');
+      change(action, 'oper_info');
+      change(reason, 'how_to');
+
+      setTimeout(() => {
+        const saved = JSON.parse(localStorage.getItem('crmCallReasonMappingsV1') || '{}');
+        const hasMapping = Object.keys(saved).some((k) => k.includes('how_to') || k.includes('how to use product'));
+        log('Mapping is saved after manual selection', hasMapping);
+
+        // Reset fields then select reason to trigger auto-apply
+        change(category, '');
+        change(action, '');
+        change(reason, 'how_to');
+
+        setTimeout(() => {
+          log('Category auto-applied from reason', category.value === '520');
+          log('Action auto-applied from reason', action.value === 'oper_info');
+
+          const passCount = results.filter(r => r.pass).length;
+          const failCount = results.length - passCount;
+          const lines = [];
+          lines.push('TEST SUMMARY');
+          lines.push('Pass: ' + passCount + ' | Fail: ' + failCount);
+          lines.push('');
+
+          results.forEach((r) => {
+            lines.push((r.pass ? '[PASS] ' : '[FAIL] ') + r.msg);
+          });
+
+          out.textContent = lines.join('\n');
+          out.className = failCount === 0 ? 'ok' : 'fail';
+
+          // Useful marker for headless checks
+          document.body.setAttribute('data-test-result', failCount === 0 ? 'PASS' : 'FAIL');
+        }, 700);
+      }, 500);
+    })();
+  </script>
+</body>
+</html>

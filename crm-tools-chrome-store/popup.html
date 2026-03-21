@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 300px;
+            padding: 0;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .content {
+            background: white;
+            padding: 20px;
+        }
+        
+        .quick-action {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .quick-action:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+        
+        .quick-action-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .quick-action-desc {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .status {
+            padding: 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+        }
+        
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .icon {
+            margin-right: 8px;
+        }
+        
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+        }
+        
+        .toggle-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #27ae60;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        .dev-tools-section {
+            margin-top: 10px;
+            padding: 15px;
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .dev-tools-section.visible {
+            display: block;
+        }
+        
+        .dev-tools-section h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔧 CRM Tools Extension</h1>
+        <p>User tools + Developer script management</p>
+    </div>
+    
+    <div class="content">
+        <button class="quick-action" id="openTools">
+            <div class="quick-action-title">
+                <span class="icon">🔧</span>Open CRM Tools
+            </div>
+            <div class="quick-action-desc">Access floating tools widget on CRM page</div>
+        </button>
+        
+        <div class="toggle-row">
+            <span class="toggle-label">Dev Mode</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="devModeToggle">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <div class="dev-tools-section" id="devToolsSection">
+            <h3>🔧 Developer Tools</h3>
+            <button class="quick-action" id="scanPage">
+                <div class="quick-action-title">
+                    <span class="icon">🔍</span>Scan Page
+                </div>
+                <div class="quick-action-desc">Diagnostic scan</div>
+            </button>
+        </div>
+        
+        <button class="quick-action" id="viewStatus">
+            <div class="quick-action-title">
+                <span class="icon">📊</span>Extension Status
+            </div>
+            <div class="quick-action-desc">Check tools and scripts status</div>
+        </button>
+    </div>
+    
+    <div class="status" id="status">
+        <span class="icon">🔄</span>Checking extension status...
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

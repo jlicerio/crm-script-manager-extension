@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧵 Thread Memory Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-header h1 {
+            color: #5D5CDE;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #5D5CDE 0%, #4B4BC8 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(93, 92, 222, 0.3);
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(93, 92, 222, 0.4);
+        }
+        
+        .instructions {
+            background: #e8f4fd;
+            border-left: 4px solid #5D5CDE;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .debug-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🧵 Thread Memory Debug Test</h1>
+            <p style="color: #666; font-size: 18px;">Test and Debug Thread Selection Issues</p>
+        </div>
+        
+        <div class="instructions">
+            <h3 style="margin: 0 0 15px 0; color: #5D5CDE;">🔍 Debug Steps:</h3>
+            <ol style="margin: 0; padding-left: 20px;">
+                <li><strong>Launch Chat:</strong> Click to open the CRM chat widget</li>
+                <li><strong>Generate Test Data:</strong> Open Thread Memory → click "🧪 Generate Test Data"</li>
+                <li><strong>Test Thread Selection:</strong> Try clicking on different threads to see if they open</li>
+                <li><strong>Check Console:</strong> Open browser DevTools (F12) to see debug messages</li>
+                <li><strong>Verify Data:</strong> Check if thread data is being stored correctly</li>
+            </ol>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="test-button" onclick="openChat()">🚀 Launch Chat Widget</button>
+            <button class="test-button" onclick="openThreadMemory()">🧵 Open Thread Memory</button>
+            <button class="test-button" onclick="debugThreadData()">🔍 Debug Thread Data</button>
+            <button class="test-button" onclick="clearConsole()">🧹 Clear Console</button>
+        </div>
+
+        <div id="debugOutput" class="debug-info">
+            <strong>Debug Console:</strong><br>
+            Open browser DevTools (F12) to see detailed debugging information...<br>
+            Click "Debug Thread Data" to see current thread information here.
+        </div>
+
+        <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 20px; margin: 20px 0;">
+            <h4 style="margin: 0 0 10px 0; color: #856404;">⚠️ Troubleshooting Common Issues:</h4>
+            <ul style="margin: 0; padding-left: 20px; color: #856404;">
+                <li><strong>Threads not clickable:</strong> Check if window.crmWidget is defined</li>
+                <li><strong>No threads showing:</strong> Generate test data first</li>
+                <li><strong>Click not working:</strong> Check console for JavaScript errors</li>
+                <li><strong>Modal not opening:</strong> Ensure CRM widget is initialized</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Include the main CRM Tools Widget script -->
+    <script src="crm-tools-widget.js"></script>
+    
+    <script>
+        let crmWidget = null;
+        
+        function openChat() {
+            if (!crmWidget) {
+                crmWidget = new CRMToolsWidget();
+                console.log('CRM Widget initialized:', crmWidget);
+            }
+            
+            // Open the chat tool
+            const chatTool = crmWidget.tools.find(tool => tool.id === 'chat-assistant');
+            if (chatTool && chatTool.action) {
+                chatTool.action();
+                console.log('Chat assistant opened');
+            }
+        }
+        
+        function openThreadMemory() {
+            if (!crmWidget) {
+                openChat();
+                setTimeout(openThreadMemory, 1000);
+                return;
+            }
+            
+            crmWidget.showThreadMemory();
+            console.log('Thread memory modal opened');
+        }
+        
+        function debugThreadData() {
+            if (!crmWidget) {
+                document.getElementById('debugOutput').innerHTML = 
+                    '<strong>Debug Console:</strong><br>❌ CRM Widget not initialized. Click "Launch Chat Widget" first.';
+                return;
+            }
+            
+            const debugInfo = {
+                'Current Thread ID': crmWidget.currentThreadId,
+                'Total Threads': Object.keys(crmWidget.conversationThreads).length,
+                'Thread Data': crmWidget.conversationThreads,
+                'Window CRM Widget': window.crmWidget ? 'Available' : 'Not Available'
+            };
+            
+            console.log('=== THREAD DEBUG INFO ===');
+            console.log(debugInfo);
+            
+            let debugHtml = '<strong>Debug Console:</strong><br>';
+            for (const [key, value] of Object.entries(debugInfo)) {
+                debugHtml += `<strong>${key}:</strong> ${typeof value === 'object' ? JSON.stringify(value, null, 2) : value}<br>`;
+            }
+            
+            document.getElementById('debugOutput').innerHTML = debugHtml;
+        }
+        
+        function clearConsole() {
+            console.clear();
+            document.getElementById('debugOutput').innerHTML = 
+                '<strong>Debug Console:</strong><br>Console cleared. Run debug commands to see information here.';
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧵 Thread Memory Test Page Loaded');
+            console.log('Browser console debugging enabled');
+        });
+        
+        // Add global error handler for debugging
+        window.addEventListener('error', (e) => {
+            console.error('JavaScript Error:', e.error);
+            const debugOutput = document.getElementById('debugOutput');
+            if (debugOutput) {
+                debugOutput.innerHTML += `<br><span style="color: red;">❌ Error: ${e.message}</span>`;
+            }
+        });
+    </script>
+</body>
+</html>

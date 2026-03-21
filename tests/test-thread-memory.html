@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧵 Thread Memory System Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .test-header h1 {
+            color: #5D5CDE;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #5D5CDE 0%, #4B4BC8 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(93, 92, 222, 0.3);
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(93, 92, 222, 0.4);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h3 {
+            margin-top: 0;
+            color: #5D5CDE;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-box {
+            background: #e8f4fd;
+            border: 1px solid #5D5CDE;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .demo-steps {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .demo-steps ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .demo-steps li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🧵 Thread Memory System</h1>
+            <p style="color: #666; font-size: 18px;">Advanced Conversation Tracking & History Management</p>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button class="test-button" onclick="startChatWithThread()">🚀 Start New Chat Thread</button>
+            <button class="test-button" onclick="openThreadMemory()">🧵 View Thread Memory</button>
+            <button class="test-button" onclick="simulateConversations()">🎭 Simulate Test Conversations</button>
+        </div>
+        
+        <div class="status-box">
+            <h3 style="margin: 0 0 15px 0; color: #5D5CDE;">📊 Current Thread Status:</h3>
+            <div id="threadStatus">
+                <div>📊 Total Threads: <strong id="totalThreads">0</strong></div>
+                <div>📅 Today's Threads: <strong id="todayThreads">0</strong></div>
+                <div>🧵 Current Thread: <strong id="currentThread">None</strong></div>
+                <div>💾 Last Update: <strong id="lastUpdate">Never</strong></div>
+            </div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🧵 Thread Management</h3>
+                <p><strong>Automatic Tracking:</strong> Each chat session creates a new conversation thread with timestamp</p>
+                <p><strong>Date Organization:</strong> Threads are organized by date for easy navigation</p>
+                <p><strong>Message History:</strong> Every user and bot message is saved with timestamps</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>📅 Historical View</h3>
+                <p><strong>Date Browser:</strong> Navigate conversations by date</p>
+                <p><strong>Thread Overview:</strong> See start time and message count for each thread</p>
+                <p><strong>Full Conversations:</strong> View complete message history with timestamps</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>💾 Data Management</h3>
+                <p><strong>Local Storage:</strong> All conversations stored in browser localStorage</p>
+                <p><strong>Export Feature:</strong> Download conversation history as JSON file</p>
+                <p><strong>Clear History:</strong> Option to clear all stored conversations</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>🔧 Advanced Features</h3>
+                <p><strong>Thread Continuation:</strong> Resume conversations from previous sessions</p>
+                <p><strong>Search & Filter:</strong> Find specific conversations by date/content</p>
+                <p><strong>Customer Info:</strong> Track customer details across conversations</p>
+            </div>
+        </div>
+
+        <div class="demo-steps">
+            <h3 style="margin: 0 0 15px 0; color: #d9831f;">🧪 Testing Instructions:</h3>
+            <ol>
+                <li><strong>Start New Chat:</strong> Click "Start New Chat Thread" to begin a conversation</li>
+                <li><strong>Have Conversations:</strong> Send messages and receive responses - all tracked automatically</li>
+                <li><strong>View History:</strong> Click "View Thread Memory" to see organized conversation history</li>
+                <li><strong>Test Features:</strong> Try "Simulate Test Conversations" to generate sample data</li>
+                <li><strong>Export Data:</strong> Use export feature to download conversation history</li>
+                <li><strong>Navigate Threads:</strong> Click on different dates/threads to view specific conversations</li>
+            </ol>
+        </div>
+
+        <div class="demo-steps">
+            <h3 style="margin: 0 0 15px 0; color: #d9831f;">📋 Thread Memory Benefits:</h3>
+            <ul>
+                <li><strong>Customer Service:</strong> Track all customer interactions across sessions</li>
+                <li><strong>Training:</strong> Review conversation patterns and improve responses</li>
+                <li><strong>Documentation:</strong> Maintain detailed records of support interactions</li>
+                <li><strong>Analytics:</strong> Analyze conversation trends and common issues</li>
+                <li><strong>Continuity:</strong> Resume conversations from where you left off</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Include the main CRM Tools Widget script -->
+    <script src="crm-tools-widget.js"></script>
+    
+    <script>
+        let crmWidget = null;
+        
+        function startChatWithThread() {
+            if (!crmWidget) {
+                crmWidget = new CRMToolsWidget();
+            }
+            
+            // Start a new thread and open chat
+            crmWidget.startNewThread();
+            
+            // Open the chat tool
+            const chatTool = crmWidget.tools.find(tool => tool.id === 'chat-assistant');
+            if (chatTool && chatTool.action) {
+                chatTool.action();
+            }
+            
+            updateThreadStatus();
+        }
+        
+        function openThreadMemory() {
+            if (!crmWidget) {
+                crmWidget = new CRMToolsWidget();
+            }
+            
+            // Open thread memory modal
+            if (crmWidget.showThreadMemory) {
+                crmWidget.showThreadMemory();
+            }
+            
+            updateThreadStatus();
+        }
+        
+        function simulateConversations() {
+            if (!crmWidget) {
+                crmWidget = new CRMToolsWidget();
+            }
+            
+            // Generate sample conversation data
+            const sampleConversations = [
+                {
+                    date: new Date(Date.now() - 86400000).toLocaleDateString('en-US'), // Yesterday
+                    conversations: [
+                        { user: "Hello, I need help with my D74A radio", bot: "I'd be happy to help with your D74A handheld radio. What specific issue are you experiencing?" },
+                        { user: "The display is not working properly", bot: "Let me help you troubleshoot the display issue. Have you tried resetting the radio?" }
+                    ]
+                },
+                {
+                    date: new Date().toLocaleDateString('en-US'), // Today
+                    conversations: [
+                        { user: "Thank you for calling JVC Kenwood", bot: "Hello! How can I assist you today?" },
+                        { user: "Customer wants technical support", bot: "I'll help connect you with technical support. Can you provide the customer's information?" }
+                    ]
+                }
+            ];
+            
+            for (const sample of sampleConversations) {
+                // Create a new thread for each sample conversation
+                const today = new Date(sample.date);
+                const timeKey = today.toLocaleTimeString('en-US', { hour12: false });
+                const threadId = `${sample.date}_${timeKey}`;
+                
+                if (!crmWidget.conversationThreads[sample.date]) {
+                    crmWidget.conversationThreads[sample.date] = {};
+                }
+                
+                crmWidget.conversationThreads[sample.date][threadId] = {
+                    startTime: timeKey,
+                    messages: [],
+                    summary: null,
+                    customerInfo: {}
+                };
+                
+                // Add messages to the thread
+                for (const conv of sample.conversations) {
+                    crmWidget.conversationThreads[sample.date][threadId].messages.push({
+                        text: conv.user,
+                        isUser: true,
+                        timestamp: timeKey
+                    });
+                    crmWidget.conversationThreads[sample.date][threadId].messages.push({
+                        text: conv.bot,
+                        isUser: false,
+                        timestamp: timeKey
+                    });
+                }
+            }
+            
+            crmWidget.saveConversationThreads();
+            updateThreadStatus();
+            
+            alert('✅ Sample conversations generated! Click "View Thread Memory" to see them.');
+        }
+        
+        function updateThreadStatus() {
+            if (!crmWidget) return;
+            
+            const threadCount = Object.keys(crmWidget.conversationThreads).reduce((total, date) => {
+                return total + Object.keys(crmWidget.conversationThreads[date]).length;
+            }, 0);
+
+            const today = new Date().toLocaleDateString('en-US');
+            const todayThreads = crmWidget.conversationThreads[today] ? Object.keys(crmWidget.conversationThreads[today]).length : 0;
+
+            document.getElementById('totalThreads').textContent = threadCount;
+            document.getElementById('todayThreads').textContent = todayThreads;
+            document.getElementById('currentThread').textContent = crmWidget.currentThreadId || 'None';
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+        }
+        
+        // Update status on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧵 Thread Memory Test Page Loaded');
+            
+            // Initialize widget to load existing threads
+            if (!crmWidget) {
+                crmWidget = new CRMToolsWidget();
+            }
+            
+            updateThreadStatus();
+            
+            // Update status every 5 seconds
+            setInterval(updateThreadStatus, 5000);
+        });
+    </script>
+</body>
+</html>

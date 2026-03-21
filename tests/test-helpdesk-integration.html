@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk Chat Assistant Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-button {
+            background: #5D5CDE;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background 0.2s;
+        }
+        
+        .test-button:hover {
+            background: #4B4BC8;
+        }
+        
+        .features-list {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .features-list h3 {
+            margin-top: 0;
+            color: #5D5CDE;
+        }
+        
+        .feature-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🤖 Helpdesk Chat Assistant</h1>
+            <p><strong>Integrated CRM Tools Widget with Professional Helpdesk Template</strong></p>
+        </div>
+        
+        <div style="text-align: center;">
+            <button class="test-button" onclick="createChatWidget()">Launch Helpdesk Assistant</button>
+            <button class="test-button" onclick="closeChatWidget()">Close Assistant</button>
+        </div>
+        
+        <div class="features-list">
+            <h3>🎯 New Helpdesk Features:</h3>
+            
+            <div class="feature-item">
+                <strong>📝 Professional Greeting:</strong> Structured welcome message asking for agent name and customer information
+            </div>
+            
+            <div class="feature-item">
+                <strong>👤 Agent Configuration:</strong> Settings modal to set agent name for conversation summaries
+            </div>
+            
+            <div class="feature-item">
+                <strong>📋 Conversation Summaries:</strong> Generate professional helpdesk reports with customer template
+            </div>
+            
+            <div class="feature-item">
+                <strong>🔧 Product Database:</strong> Built-in product code matching for audio equipment, car audio, projectors
+            </div>
+            
+            <div class="feature-item">
+                <strong>⚙️ API Settings:</strong> Configure Poe API, OpenAI, or Anthropic for AI assistance
+            </div>
+            
+            <div class="feature-item">
+                <strong>🎯 Template Following:</strong> AI follows helpdesk conversation structure and customer information gathering
+            </div>
+        </div>
+
+        <div class="features-list">
+            <h3>🚀 How to Test:</h3>
+            <ol>
+                <li><strong>Click "Launch Helpdesk Assistant"</strong> to open the chat bubble</li>
+                <li><strong>Click the ⚙️ Settings button</strong> to configure your agent name and API keys</li>
+                <li><strong>Start a conversation</strong> - the AI will follow the helpdesk template</li>
+                <li><strong>Click the 📝 Summary button</strong> to generate a professional conversation report</li>
+                <li><strong>Test product mentions</strong> - try mentioning "wireless earbuds" or "car stereo"</li>
+            </ol>
+        </div>
+
+        <div class="features-list">
+            <h3>💡 Template Integration:</h3>
+            <p>The assistant now follows your specific helpdesk template:</p>
+            <ul>
+                <li>Asks for agent name at setup</li>
+                <li>Guides conversation to gather customer information</li>
+                <li>Recognizes product codes (HA-S, HA-A, SP-WS, etc.)</li>
+                <li>Generates summaries in your exact format</li>
+                <li>Maintains professional helpdesk tone</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Load the CRM Tools Widget -->
+    <script src="crm-tools-widget.js"></script>
+    
+    <script>
+        let widget = null;
+
+        function createChatWidget() {
+            if (widget) {
+                widget = null;
+                const existing = document.getElementById('crmToolsWidget');
+                if (existing) existing.remove();
+            }
+            
+            // Create new widget instance
+            widget = new CRMToolsWidget();
+            
+            // Automatically open the chat tool
+            setTimeout(() => {
+                const chatTool = widget.tools.find(tool => tool.id === 'chat-assistant');
+                if (chatTool && chatTool.action) {
+                    chatTool.action();
+                }
+            }, 100);
+        }
+
+        function closeChatWidget() {
+            const chatBubble = document.getElementById('crmChatBubble');
+            if (chatBubble) {
+                chatBubble.remove();
+            }
+            
+            const widget = document.getElementById('crmToolsWidget');
+            if (widget) {
+                widget.remove();
+            }
+        }
+    </script>
+</body>
+</html>

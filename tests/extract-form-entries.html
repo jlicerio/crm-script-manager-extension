@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Form Entry Extractor</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+        input { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { padding: 10px 20px; background: #4285f4; color: white; border: none; cursor: pointer; }
+        button:hover { background: #3367d6; }
+        #result { margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px; display: none; }
+        .entry { padding: 5px 0; border-bottom: 1px solid #ddd; }
+        .copy-btn { background: #34a853; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Google Form Entry Extractor</h1>
+    <p>Enter your Google Form URL and click Extract to get the entry IDs</p>
+    
+    <input type="text" id="formUrl" placeholder="https://docs.google.com/forms/d/e/.../viewform" value="https://docs.google.com/forms/d/e/1FAIpQLSdCDrZT_u8zPRGt9sTZXmI2b9cKlnCVGB-CbqLC8remD3zRdw/viewform">
+    <button onclick="extractEntries()">Extract Entry IDs</button>
+    
+    <div id="result">
+        <h3>POST URL:</h3>
+        <code id="postUrl"></code> <button class="copy-btn" onclick="copyToClipboard(document.getElementById('postUrl').textContent)">Copy</button>
+        
+        <h3>Entry IDs:</h3>
+        <div id="entries"></div>
+    </div>
+    
+    <script>
+        async function extractEntries() {
+            const formUrl = document.getElementById('formUrl').value;
+            const resultDiv = document.getElementById('result');
+            const entriesDiv = document.getElementById('entries');
+            const postUrlSpan = document.getElementById('postUrl');
+            
+            resultDiv.style.display = 'block';
+            entriesDiv.innerHTML = 'Loading...';
+            
+            try {
+                // Use proxy to fetch form (CORS workaround)
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(formUrl);
+                const response = await fetch(proxyUrl);
+                const html = await response.text();
+                
+                // Parse entry IDs
+                const entryRegex = /name="entry\.(\d+)"/g;
+                const entries = {};
+                let match;
+                
+                while ((match = entryRegex.exec(html)) !== null) {
+                    const entryId = match[1];
+                    if (!entries[entryId]) {
+                        entries[entryId] = `Field_${Object.keys(entries).length + 1}`;
+                    }
+                }
+                
+                // Get POST URL
+                const postUrl = formUrl.replace('/viewform', '/formResponse');
+                postUrlSpan.textContent = postUrl;
+                
+                // Display entries
+                entriesDiv.innerHTML = '';
+                for (const [id, label] of Object.entries(entries)) {
+                    entriesDiv.innerHTML += `<div class="entry"><strong>${label}</strong>: entry.${id} <button class="copy-btn" onclick="copyToClipboard('entry.${id}')">Copy</button></div>`;
+                }
+                
+                if (Object.keys(entries).length === 0) {
+                    entriesDiv.innerHTML = '<p style="color: red;">No entry IDs found. The form might not be publicly accessible or the proxy failed.</p>';
+                }
+                
+            } catch (error) {
+                entriesDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied: ' + text);
+            });
+        }
+        
+        // Auto-extract on load if URL is present
+        window.onload = () => {
+            if (document.getElementById('formUrl').value) {
+                extractEntries();
+            }
+        };
+    </script>
+</body>
+</html>

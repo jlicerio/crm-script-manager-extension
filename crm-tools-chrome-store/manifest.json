@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "CRM Script Manager",
+  "version": "1.0.2",
+  "description": "Dynamic script manager for CRM with installable script support",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://crm.nexgenexpert.com/*",
+    "https://nexgen.brightpattern.com/agentdesktop/*",
+    "http://akbs.eastus2.cloudapp.azure.com/*",
+    "https://akbs.eastus2.cloudapp.azure.com/*",
+    "https://docs.google.com/forms/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://crm.nexgenexpert.com/*", "https://nexgen.brightpattern.com/agentdesktop/*", "http://akbs.eastus2.cloudapp.azure.com/*", "https://akbs.eastus2.cloudapp.azure.com/*", "https://docs.google.com/forms/*"],
+      "js": ["crm-tools-widget.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CRM Tools 🔧"
+  },
+  "web_accessible_resources": []
+}

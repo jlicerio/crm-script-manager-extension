@@ -1,0 +1,905 @@
+{
+  "url": "https://crm.nexgenexpert.com/index.php",
+  "title": "Nexgen CRM",
+  "timestamp": "2026-03-20T19:17:58.331Z",
+  "elements": {
+    "spans": 140,
+    "divs": 170,
+    "inputs": 56,
+    "textareas": 1,
+    "buttons": 37,
+    "links": 106,
+    "tables": 1,
+    "iframes": 0
+  },
+  "phoneNumbers": [
+    "(978) 804-3933"
+  ],
+  "emails": [],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "UnifiedSearch",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Home",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "advanced",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "",
+      "id": "ajaxUI-history-field",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module",
+      "id": "",
+      "placeholder": "",
+      "value": "Notes",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "record",
+      "id": "",
+      "placeholder": "",
+      "value": "480b120e-9f83-aea1-6d85-69bd9a9ee9c3",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "isDuplicate",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "action",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "return_module",
+      "id": "",
+      "placeholder": "",
+      "value": "Notes",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "return_action",
+      "id": "",
+      "placeholder": "",
+      "value": "DetailView",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "return_id",
+      "id": "",
+      "placeholder": "",
+      "value": "480b120e-9f83-aea1-6d85-69bd9a9ee9c3",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "module_tab",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "contact_role",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "relate_to",
+      "id": "",
+      "placeholder": "",
+      "value": "Notes",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "relate_id",
+      "id": "",
+      "placeholder": "",
+      "value": "480b120e-9f83-aea1-6d85-69bd9a9ee9c3",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "offset",
+      "id": "",
+      "placeholder": "",
+      "value": "1",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "button",
+      "id": "SAVE",
+      "placeholder": "",
+      "value": "Save",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "button",
+      "name": "button",
+      "id": "CANCEL",
+      "placeholder": "",
+      "value": "Cancel",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "account_type_c",
+      "id": "account_type_c",
+      "placeholder": "",
+      "value": "JC",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "communication_type_c",
+      "id": "communication_type_c",
+      "placeholder": "",
+      "value": "Call",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "call_category_c",
+      "id": "call_category_c",
+      "placeholder": "",
+      "value": "ProductTechSupport",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "id": "",
+      "placeholder": "Search",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "call_reason_c",
+      "id": "call_reason_c",
+      "placeholder": "",
+      "value": "ProductTechSupport_SW_FW_Inquiry",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "call_action_c",
+      "id": "call_action_c",
+      "placeholder": "",
+      "value": "ProductTechSupport_Provided_Oper_Tech_Info",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "call_status_c",
+      "id": "call_status_c",
+      "placeholder": "",
+      "value": "CLOSED",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "assign_note_to_c",
+      "id": "assign_note_to_c",
+      "placeholder": "",
+      "value": "Derrick",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "nexge_ng_customers_id_c",
+      "id": "nexge_ng_customers_id_c",
+      "placeholder": "",
+      "value": "bd796d40-d6e7-8f73-3183-69bd990d0130",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "id": "",
+      "placeholder": "Search",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "id": "",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "model_c",
+      "id": "model_c",
+      "placeholder": "",
+      "value": "Ken_DMX7709S",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "serial_number_c",
+      "id": "serial_number_c",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "date_purchase_c",
+      "id": "date_purchase_c",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "textarea",
+      "type": "textarea",
+      "name": "issue_c",
+      "id": "issue_c",
+      "placeholder": "",
+      "value": "03/20/2026\n\nI assisted Derek with a DMX7709S installed in a 2012 Ford Fusion with a Maestro RR. The unit is no longer displaying a serial number in the settings, causing the Maestro to lose vehicle integration (OBDII data). I guided the customer through finding the correct firmware update on the Kenwood support site. I explained that he must use a PC to extract the ZIP file and move only the two individual update files (not the folder) to the root of a blank USB drive. We are currently troubleshooting the extraction process to ensure the radio can \"see\" the update and hopefully restore the serial number and Maestro functionality. -Juanl",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "assigned_user_name",
+      "id": "assigned_user_name",
+      "placeholder": "",
+      "value": "Juan Licerio",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "assigned_user_id",
+      "id": "assigned_user_id",
+      "placeholder": "",
+      "value": "6cd07195-1e13-a4fe-d9d8-63f8d2645947",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "name",
+      "id": "name",
+      "placeholder": "",
+      "value": "Missing Serial Number and Maestro RR Communication Error",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "button",
+      "id": "SAVE",
+      "placeholder": "",
+      "value": "Save",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "button",
+      "name": "button",
+      "id": "CANCEL",
+      "placeholder": "",
+      "value": "Cancel",
+      "visible": true,
+      "disabled": false
+    }
+  ],
+  "searchBars": [
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "search_form",
+      "id": "",
+      "placeholder": "",
+      "value": "false",
+      "visible": false,
+      "disabled": false
+    }
+  ],
+  "fillableFields": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "query_string",
+      "id": "query_string",
+      "placeholder": "Search...",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "account_type_c",
+      "id": "account_type_c",
+      "placeholder": "",
+      "value": "JC",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "communication_type_c",
+      "id": "communication_type_c",
+      "placeholder": "",
+      "value": "Call",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "call_category_c",
+      "id": "call_category_c",
+      "placeholder": "",
+      "value": "ProductTechSupport",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "id": "",
+      "placeholder": "Search",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "call_reason_c",
+      "id": "call_reason_c",
+      "placeholder": "",
+      "value": "ProductTechSupport_SW_FW_Inquiry",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "call_action_c",
+      "id": "call_action_c",
+      "placeholder": "",
+      "value": "ProductTechSupport_Provided_Oper_Tech_Info",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "call_status_c",
+      "id": "call_status_c",
+      "placeholder": "",
+      "value": "CLOSED",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "assign_note_to_c",
+      "id": "assign_note_to_c",
+      "placeholder": "",
+      "value": "Derrick",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "id": "",
+      "placeholder": "Search",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "model_c",
+      "id": "model_c",
+      "placeholder": "",
+      "value": "Ken_DMX7709S",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "serial_number_c",
+      "id": "serial_number_c",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "date_purchase_c",
+      "id": "date_purchase_c",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "textarea",
+      "type": "textarea",
+      "name": "issue_c",
+      "id": "issue_c",
+      "placeholder": "",
+      "value": "03/20/2026\n\nI assisted Derek with a DMX7709S installed in a 2012 Ford Fusion with a Maestro RR. The unit is no longer displaying a serial number in the settings, causing the Maestro to lose vehicle integration (OBDII data). I guided the customer through finding the correct firmware update on the Kenwood support site. I explained that he must use a PC to extract the ZIP file and move only the two individual update files (not the folder) to the root of a blank USB drive. We are currently troubleshooting the extraction process to ensure the radio can \"see\" the update and hopefully restore the serial number and Maestro functionality. -Juanl",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "assigned_user_name",
+      "id": "assigned_user_name",
+      "placeholder": "",
+      "value": "Juan Licerio",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "name",
+      "id": "name",
+      "placeholder": "",
+      "value": "Missing Serial Number and Maestro RR Communication Error",
+      "visible": true,
+      "disabled": false
+    }
+  ]
+}

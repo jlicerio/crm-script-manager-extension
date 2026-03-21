@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuiteCRM API Test Tool</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 16px;
+            font-size: 18px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+        .row button {
+            flex: 1;
+        }
+        .log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 4px 0;
+            border-bottom: 1px solid #333;
+        }
+        .log-time {
+            color: #888;
+        }
+        .log-success {
+            color: #2ecc71;
+        }
+        .log-error {
+            color: #e74c3c;
+        }
+        .log-info {
+            color: #3498db;
+        }
+        .result {
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .result.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        .json-view {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin-top: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-indicator.green { background: #2ecc71; }
+        .status-indicator.red { background: #e74c3c; }
+        .status-indicator.yellow { background: #f39c12; }
+        .checks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .check-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 SuiteCRM API Test Tool</h1>
+        
+        <div class="card">
+            <h2>📡 API Endpoint Test</h2>
+            <div class="checks" id="checks">
+                <div class="check-item">
+                    <span class="status-indicator yellow" id="check-endpoint"></span>
+                    <span>API Endpoint</span>
+                </div>
+                <div class="check-item">
+                    <span class="status-indicator yellow" id="check-connection"></span>
+                    <span>Connection</span>
+                </div>
+                <div class="check-item">
+                    <span class="status-indicator yellow" id="check-auth"></span>
+                    <span>Authentication</span>
+                </div>
+                <div class="check-item">
+                    <span class="status-indicator yellow" id="check-search"></span>
+                    <span>Search</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🔐 Login Credentials</h2>
+            <div class="form-group">
+                <label>CRM URL</label>
+                <input type="text" id="crmUrl" value="https://crm.nexgenexpert.com" placeholder="https://crm.example.com">
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Your username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Your password">
+            </div>
+            <div class="row">
+                <button onclick="runAllTests()" id="btn-test">▶️ Run All Tests</button>
+                <button onclick="testEndpoint()" class="btn-secondary">📡 Test Endpoint</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🔍 Quick Search Test</h2>
+            <div class="form-group">
+                <label>Phone Number (digits only)</label>
+                <input type="text" id="searchPhone" placeholder="2087134321">
+            </div>
+            <button onclick="testSearch()" class="btn-success" id="btn-search" disabled>🔍 Search by Phone</button>
+            <div id="searchResult"></div>
+        </div>
+        
+        <div class="card">
+            <h2>📋 Test Log</h2>
+            <div class="log" id="log"></div>
+            <button onclick="clearLog()" class="btn-secondary" style="margin-top: 12px;">🗑️ Clear Log</button>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://crm.nexgenexpert.com/service/v4/rest.php';
+        let sessionId = null;
+        
+        const log = document.getElementById('log');
+        
+        function addLog(message, type = 'info') {
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.innerHTML = `<span class="log-time">[${time}]</span> ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        function clearLog() {
+            log.innerHTML = '';
+        }
+        
+        function setStatus(id, status) {
+            const el = document.getElementById(`check-${id}`);
+            el.className = `status-indicator ${status}`;
+        }
+        
+        async function apiRequest(method, data) {
+            addLog(`Sending: ${method}`);
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        method: method,
+                        input_type: 'JSON',
+                        response_type: 'JSON',
+                        rest_data: data
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                addLog(`Response received`, 'success');
+                return result;
+            } catch (error) {
+                addLog(`Error: ${error.message}`, 'error');
+                throw error;
+            }
+        }
+        
+        async function testEndpoint() {
+            addLog('Testing API endpoint...', 'info');
+            setStatus('endpoint', 'yellow');
+            
+            try {
+                // Just try a simple request to see if endpoint exists
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        method: 'get_server_info',
+                        input_type: 'JSON',
+                        response_type: 'JSON',
+                        rest_data: {}
+                    })
+                });
+                
+                if (response.ok) {
+                    addLog('✅ API endpoint is accessible!', 'success');
+                    setStatus('endpoint', 'green');
+                    setStatus('connection', 'green');
+                    return true;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                addLog(`❌ Cannot reach API: ${error.message}`, 'error');
+                setStatus('endpoint', 'red');
+                setStatus('connection', 'red');
+                return false;
+            }
+        }
+        
+        async function testLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                addLog('⚠️ Please enter username and password', 'error');
+                return false;
+            }
+            
+            addLog(`Attempting login as: ${username}`, 'info');
+            setStatus('auth', 'yellow');
+            
+            try {
+                const result = await apiRequest('login', {
+                    user_auth: {
+                        user_name: username,
+                        password: password
+                    }
+                });
+                
+                if (result.id && result.id !== '-1') {
+                    sessionId = result.id;
+                    addLog(`✅ Login successful! Session: ${sessionId.substring(0, 20)}...`, 'success');
+                    setStatus('auth', 'green');
+                    document.getElementById('btn-search').disabled = false;
+                    return true;
+                } else {
+                    const error = result.name_value_list?.name || 'Invalid credentials';
+                    addLog(`❌ Login failed: ${error}`, 'error');
+                    setStatus('auth', 'red');
+                    return false;
+                }
+            } catch (error) {
+                addLog(`❌ Login error: ${error.message}`, 'error');
+                setStatus('auth', 'red');
+                return false;
+            }
+        }
+        
+        async function testSearch() {
+            const phone = document.getElementById('searchPhone').value.replace(/\D/g, '');
+            
+            if (!phone) {
+                addLog('⚠️ Please enter a phone number', 'error');
+                return;
+            }
+            
+            if (!sessionId) {
+                addLog('⚠️ Not logged in. Please login first.', 'error');
+                return;
+            }
+            
+            addLog(`Searching for phone: ${phone}`, 'info');
+            setStatus('search', 'yellow');
+            
+            try {
+                const result = await apiRequest('search_by_module', {
+                    session: sessionId,
+                    search_string: phone,
+                    modules: ['NexGe_NG_Customers'],
+                    offset: 0,
+                    limit: 20
+                });
+                
+                const resultDiv = document.getElementById('searchResult');
+                
+                if (result.result_count && result.result_count > 0) {
+                    addLog(`✅ Found ${result.result_count} customer(s)!`, 'success');
+                    setStatus('search', 'green');
+                    
+                    let html = `<div class="result success"><strong>Found ${result.result_count} customer(s):</strong>`;
+                    
+                    for (const entry of result.entry_list) {
+                        const name = entry.name_value_list?.name?.value || 
+                                   `${entry.name_value_list?.first_name?.value || ''} ${entry.name_value_list?.last_name?.value || ''}`.trim() ||
+                                   'Unknown';
+                        const phoneVal = entry.name_value_list?.phone_mobile?.value || 
+                                       entry.name_value_list?.phone_work?.value || 
+                                       entry.name_value_list?.phone?.value || 'N/A';
+                        const email = entry.name_value_list?.email1?.value || 'N/A';
+                        const id = entry.id;
+                        
+                        html += `
+                            <div style="margin-top:12px;padding:12px;background:#f8f9fa;border-radius:8px;">
+                                <strong>👤 ${name}</strong><br>
+                                📞 ${phoneVal}<br>
+                                📧 ${email}<br>
+                                <small>ID: ${id}</small>
+                            </div>
+                        `;
+                    }
+                    
+                    html += '</div>';
+                    resultDiv.innerHTML = html;
+                } else {
+                    addLog('ℹ️ No customers found with this phone', 'info');
+                    setStatus('search', 'green');
+                    resultDiv.innerHTML = `<div class="result info"><strong>No customers found</strong><br>You can create a new customer with this phone number.</div>`;
+                }
+            } catch (error) {
+                addLog(`❌ Search error: ${error.message}`, 'error');
+                setStatus('search', 'red');
+                document.getElementById('searchResult').innerHTML = 
+                    `<div class="result error"><strong>Search failed:</strong> ${error.message}</div>`;
+            }
+        }
+        
+        async function runAllTests() {
+            const btn = document.getElementById('btn-test');
+            btn.disabled = true;
+            btn.textContent = '⏳ Running...';
+            
+            addLog('═══ Starting All Tests ═══', 'info');
+            
+            // Reset all statuses
+            ['endpoint', 'connection', 'auth', 'search'].forEach(s => setStatus(s, 'yellow'));
+            
+            // Test 1: Endpoint
+            const endpointOk = await testEndpoint();
+            if (!endpointOk) {
+                addLog('❌ Endpoint test failed. Check URL and try again.', 'error');
+                btn.disabled = false;
+                btn.textContent = '▶️ Run All Tests';
+                return;
+            }
+            
+            // Test 2: Login
+            const loginOk = await testLogin();
+            if (!loginOk) {
+                addLog('❌ Login failed. Check credentials and try again.', 'error');
+                btn.disabled = false;
+                btn.textContent = '▶️ Run All Tests';
+                return;
+            }
+            
+            // Test 3: Search (optional - only if phone provided)
+            const phone = document.getElementById('searchPhone').value.replace(/\D/g, '');
+            if (phone) {
+                await testSearch();
+            } else {
+                addLog('ℹ️ Skipping search test (no phone entered)', 'info');
+                setStatus('search', 'green');
+            }
+            
+            addLog('═══ All Tests Complete ═══', 'success');
+            
+            btn.disabled = false;
+            btn.textContent = '▶️ Run All Tests';
+        }
+    </script>
+</body>
+</html>

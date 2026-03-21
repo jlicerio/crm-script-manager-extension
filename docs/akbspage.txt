@@ -1,0 +1,313 @@
+{
+  "url": "http://akbs.eastus2.cloudapp.azure.com/Default.aspx",
+  "title": "AKBS",
+  "timestamp": "2026-03-20T19:08:56.772Z",
+  "elements": {
+    "spans": 65,
+    "divs": 44,
+    "inputs": 16,
+    "textareas": 0,
+    "buttons": 4,
+    "links": 61,
+    "tables": 0,
+    "iframes": 0
+  },
+  "phoneNumbers": [],
+  "emails": [],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__VIEWSTATE",
+      "id": "__VIEWSTATE",
+      "placeholder": "",
+      "value": "/wEPDwUJNjkzMzE0NjQ3D2QWAgIDD2QWDgIBDxYCHgVzdHlsZQXQAWJhY2tncm91bmQtcmVwZWF0Om5vLXJlcGVhdDt3aWR0aDoyOTBweDt6LWluZGV4Oi0xMDtmbG9hdDpsZWZ0O2hlaWdodDoyMjVweDtwb3NpdGlvbjpyZWxhdGl2ZTtiYWNrZ3JvdW5kLWltYWdlOnVybChjb250ZW50L01hc3RlclJlcG9zaXRvcnkvSG9tZVBhZ2VJbWFnZXMvSlZDX1NQLVdTMkJUX0ltYWdlMi5qcGcpO2NsZWFyOnJpZ2h0O292ZXJmbG93OmhpZGRlbjsWBAIBDxYEHglpbm5lcmh0bWwFEVdvb2RlbiBCVCBTcGVha2VyHwAFrQFmb250LWZhbWlseTpUYWhvbWE7ZmxvYXQ6bGVmdDtwb3NpdGlvbjpyZWxhdGl2ZTtwYWRkaW5nLXJpZ2h0OjEwcHg7Y29sb3I6I2RlZGVkZTtsZXR0ZXItc3BhY2luZzouNXB4O21hcmdpbjowO3BhZGRpbmctbGVmdDoxMHB4O2NsZWFyOmJvdGg7bGluZS1oZWlnaHQ6Mi4wZW07Zm9udC1zaXplOjEuOGVtO2QCAw8WBB8BBQNqdmMfAAVFZmxvYXQ6bGVmdDtjbGVhcjpib3RoO2NvbG9yOiNkNWQ1ZDU7Zm9udC1zaXplOi45ZW07cG9zaXRpb246YWJzb2x1dGU7ZAICDxYEHwAFJGZsb2F0OmxlZnQ7Y29sb3I6I2Q1ZDVkNTt6LWluZGV4OjUwOx8BBQhTUC1XUzJCVGQCAw8WBB4EaHJlZgU3fi8vcHJvZHVjdHBhZ2VzLy9rYnByb2R1Y3RwYWdlLmFzcHg/aWQ9U1AtV1MyQlQmZGl2PWp2Yx8ABVVjb2xvcjpSZWQ7ei1pbmRleDoxMDtmb250LXNpemU6LjllbTtsaW5lLWhlaWdodDoxLjBlbTtwYWRkaW5nLXJpZ2h0OjUwcHg7ZmxvYXQ6cmlnaHQ7ZAIIDxYCHgtfIUl0ZW1Db3VudAIUFigCAQ9kFgQCAQ8PFgYeC05hdmlnYXRlVXJsBS5+L0RvYy9GYXFQbnAuYXNweD9pZD0zNTAyJmRpdj1qdmMmcGFnZUlkPWZyb250HgdUb29sVGlwZR4EVGV4dAUhT25saW5lIFdlYiBNYW51YWwgZm9y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FgZmDxUBATBkAgEPZBYCZg8VAQMxMjJkAgMPDxYCHwQFQS9Qcm9kdWN0UGFnZXMvS0JQcm9kdWN0UGFnZS5hc3B4P2lkPUtXLVo5MDBXJmRpdj1qdmMmcGFnZUlkPWZyb250ZBYCZg8VAQhLVy1aOTAwV2QCAg9kFgZmDxUBATFkAgEPZBYCZg8VAQI2N2QCAw8PFgIfBAVFL1Byb2R1Y3RQYWdlcy9LQlByb2R1Y3RQYWdlLmFzcHg/aWQ9RE1YNTcxMFMmZGl2PWtlbndvb2QmcGFnZUlkPWZyb250ZBYCZg8VAQhETVg1NzEwU2QCAw9kFgZmDxUBATJkAgEPZBYCZg8VAQI2M2QCAw8PFgIfBAVEL1Byb2R1Y3RQYWdlcy9LQlByb2R1Y3RQYWdlLmFzcHg/aWQ9RE1YODA5UyZkaXY9a2Vud29vZCZwYWdlSWQ9ZnJvbnRkFgJmDxUBB0RNWDgwOVNkAgQPZBYGZg8VAQEzZAIBD2QWAmYPFQECNjJkAgMPDxYCHwQFQC9Qcm9kdWN0UGFnZXMvS0JQcm9kdWN0UGFnZS5hc3B4P2lkPVhNNzdUV0wmZGl2PWp2YyZwYWdlSWQ9ZnJvbnRkFgJmDxUBB1hNNzdUV0xkAgUPZBYGZg8VAQE0ZAIBD2QWAmYPFQECNThkAgMPDxYCHwQFQi9Qcm9kdWN0UGFnZXMvS0JQcm9kdWN0UGFnZS5hc3B4P2lkPUtXLU01OTBCVCZkaXY9anZjJnBhZ2VJZD1mcm9udGQWAmYPFQEJS1ctTTU5MEJUZAIGD2QWBmYPFQEBNWQCAQ9kFgJmDxUBAjQ3ZAIDDw8WAh8EBUIvUHJvZHVjdFBhZ2VzL0tCUHJvZHVjdFBhZ2UuYXNweD9pZD1LVy1WNjYwQlQmZGl2PWp2YyZwYWdlSWQ9ZnJvbnRkFgJmDxUBCUtXLVY2NjBCVGQCBw9kFgZmDxUBATZkAgEPZBYCZg8VAQI0NmQCAw8PFgIfBAVGL1Byb2R1Y3RQYWdlcy9LQlByb2R1Y3RQYWdlLmFzcHg/aWQ9RE1YMTA1OFhSJmRpdj1rZW53b29kJnBhZ2VJZD1mcm9udGQWAmYPFQEJRE1YMTA1OFhSZAIID2QWBmYPFQEBN2QCAQ9kFgJmDxUBAjQ0ZAIDDw8WAh8EBUUvUHJvZHVjdFBhZ2VzL0tCUHJvZHVjdFBhZ2UuYXNweD9pZD1EQVg4MDBYUiZkaXY9a2Vud29vZCZwYWdlSWQ9ZnJvbnRkFgJmDxUBCERBWDgwMFhSZAIJD2QWBmYPFQEBOGQCAQ9kFgJmDxUBAjQ0ZAIDDw8WAh8EBUUvUHJvZHVjdFBhZ2VzL0tCUHJvZHVjdFBhZ2UuYXNweD9pZD1ETVg0NzEwUyZkaXY9a2Vud29vZCZwYWdlSWQ9ZnJvbnRkFgJmDxUBCERNWDQ3MTBTZAIKD2QWBmYPFQEBOWQCAQ9kFgJmDxUBAjM4ZAIDDw8WAh8EBUIvUHJvZHVjdFBhZ2VzL0tCUHJvZHVjdFBhZ2UuYXNweD9pZD1LVy1NNjkwQlcmZGl2PWp2YyZwYWdlSWQ9ZnJvbnRkFgJmDxUBCUtXLU02OTBCV2QCCw8WAh8DAgcWDgIBD2QWAgIBDw8WAh8EBUAvY29udGVudC9lbGVhcm5pbmcvbW9kZWwvMjAxNSBETk4gSERNSS9NSExfMzc4L3ByZXNlbnRhdGlvbi5odG1sZBYCZg8VAREyMDE1IEROTiBIRE1JL01ITGQCAg9kFgICAQ8PFgIfBAU9L2NvbnRlbnQvZWxlYXJuaW5nL21vZGVsLzIwMTQgTUhMIFNldHVwXzM3Ny9wcmVzZW50YXRpb24uaHRtbGQWAmYPFQEOMjAxNCBNSEwgU2V0dXBkAgMPZBYCAgEPDxYCHwQFQi9jb250ZW50L2VsZWFybmluZy9tb2RlbC9TcGVha2VyIENvbm5lY3Rpb25zXzM3NS9wcmVzZW50YXRpb24uaHRtbGQWAmYPFQETU3BlYWtlciBDb25uZWN0aW9uc2QCBA9kFgICAQ8PFgIfBAVCL2NvbnRlbnQvZWxlYXJuaW5nL21vZGVsL1NwZWFrZXIgQ29ubmVjdGlvbnNfMzczL3ByZXNlbnRhdGlvbi5odG1sZBYCZg8VARNTcGVha2VyIENvbm5lY3Rpb25zZAIFD2QWAgIBDw8WAh8EBT8vY29udGVudC9lbGVhcm5pbmcvbW9kZWwvTGl2ZSBNb3ZpZSBNYWtlcl8yMTgvcHJlc2VudGF0aW9uLmh0bWxkFgJmDxUBEExpdmUgTW92aWUgTWFrZXJkAgYPZBYCAgEPDxYCHwQFPC9jb250ZW50L2VsZWFybmluZy9tb2RlbC9OZXR3b3JrIFNldHVwXzIxMi9QcmVzZW50YXRpb24uaHRtbGQWAmYPFQENTmV0d29yayBTZXR1cGQCBw9kFgICAQ8PFgIfBAU7L2NvbnRlbnQvZWxlYXJuaW5nL21vZGVsL0dDLVhBMiBTZXR1cF8yMDgvUHJlc2VudGF0aW9uLmh0bWxkFgJmDxUBDEdDLVhBMiBTZXR1cGRkPYMKxFkgSZhFXzi1y1ggGEHSDgk=",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__VIEWSTATEGENERATOR",
+      "id": "__VIEWSTATEGENERATOR",
+      "placeholder": "",
+      "value": "CA0B0334",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__EVENTTARGET",
+      "id": "__EVENTTARGET",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__EVENTARGUMENT",
+      "id": "__EVENTARGUMENT",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__EVENTVALIDATION",
+      "id": "__EVENTVALIDATION",
+      "placeholder": "",
+      "value": "/wEWDAK4go2EDwKb19/gDALl4MXvBwL5t82FDgKSoqqWDwKZ7YzdCgKU2qq5DgL6mZqFBQKeg/SNCQLs0bb4DAL1purtBgLs0fbZDLTCEbgpeGMR+Oj5OaVHsiQVHghf",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "topSearchBox",
+      "id": "topSearchBox",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnTopSearchModel",
+      "id": "btnTopSearchModel",
+      "placeholder": "",
+      "value": "Products",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnTopSearchAkbs",
+      "id": "btnTopSearchAkbs",
+      "placeholder": "",
+      "value": "Hot Topic",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btn",
+      "id": "btn",
+      "placeholder": "",
+      "value": "Search",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "txtSearch",
+      "id": "txtSearch",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnKWModelSearch",
+      "id": "btnKWModelSearch",
+      "placeholder": "",
+      "value": "Search",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "txtKWModelSearch",
+      "id": "txtKWModelSearch",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnJVCFullSearch",
+      "id": "btnJVCFullSearch",
+      "placeholder": "",
+      "value": "Search",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "TextBoxB",
+      "id": "TextBoxB",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnKWFullSearch",
+      "id": "btnKWFullSearch",
+      "placeholder": "",
+      "value": "Search",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "TextBox2",
+      "id": "TextBox2",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    }
+  ],
+  "searchBars": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "topSearchBox",
+      "id": "topSearchBox",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnTopSearchModel",
+      "id": "btnTopSearchModel",
+      "placeholder": "",
+      "value": "Products",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnTopSearchAkbs",
+      "id": "btnTopSearchAkbs",
+      "placeholder": "",
+      "value": "Hot Topic",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "txtSearch",
+      "id": "txtSearch",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnKWModelSearch",
+      "id": "btnKWModelSearch",
+      "placeholder": "",
+      "value": "Search",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "txtKWModelSearch",
+      "id": "txtKWModelSearch",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnJVCFullSearch",
+      "id": "btnJVCFullSearch",
+      "placeholder": "",
+      "value": "Search",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "btnKWFullSearch",
+      "id": "btnKWFullSearch",
+      "placeholder": "",
+      "value": "Search",
+      "visible": true,
+      "disabled": false
+    }
+  ],
+  "fillableFields": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "topSearchBox",
+      "id": "topSearchBox",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "txtSearch",
+      "id": "txtSearch",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "txtKWModelSearch",
+      "id": "txtKWModelSearch",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "TextBoxB",
+      "id": "TextBoxB",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "TextBox2",
+      "id": "TextBox2",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    }
+  ]
+}
