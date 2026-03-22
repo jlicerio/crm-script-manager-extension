@@ -1,0 +1,153 @@
+{
+  "url": "http://akbs.eastus2.cloudapp.azure.com/doc/FaqPnp.aspx?id=2857&div=kenwood",
+  "title": "Document Page",
+  "timestamp": "2026-03-22T01:45:21.073Z",
+  "elements": {
+    "spans": 25,
+    "divs": 43,
+    "inputs": 9,
+    "textareas": 0,
+    "buttons": 9,
+    "links": 53,
+    "tables": 1,
+    "iframes": 1
+  },
+  "phoneNumbers": [],
+  "emails": [],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "ctl00_ContentPlaceHolder1_ToolkitScriptManager1_HiddenField",
+      "id": "ctl00_ContentPlaceHolder1_ToolkitScriptManager1_HiddenField",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__EVENTTARGET",
+      "id": "__EVENTTARGET",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__EVENTARGUMENT",
+      "id": "__EVENTARGUMENT",
+      "placeholder": "",
+      "value": "",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__VIEWSTATE",
+      "id": "__VIEWSTATE",
+      "placeholder": "",
+      "value": "/wEPDwUJNjg3NTU4ODAyD2QWAmYPZBYCAgMPZBYCAgIPZBYcAgMPFgIeBFRleHQFB2tlbndvb2RkAgUPFgIfAAUXY29tbW9ubHkgYXNrZWQgcXVlc3Rpb25kAgcPDxYCHwAFHFNhdGVsbGl0ZSBFcnJvciAoRzEgb3IgRzI/IClkZAIKDxYCHwAFBDI4NTdkAgwPFgIfAAUKMDkvMjIvMjAyNWQCDg8WAh8AZWQCEA8WAh8ABQIxNWQCEg8WAh8ABQZlcnJvbGhkAhQPZBYCAgEPFgIeBGhyZWYFPy4uLy4uL0FkbWluL01haW50ZW5hbmNlL2t3L2ZhcS9mYXFlZGl0LmFzcHg/aWQ9Mjg1NyZkaXY9a2Vud29vZGQCGA8WAh4JaW5uZXJodG1sBc8DVGhlcmUgYXJlIHNvbWUgY3VzdG9tZXJzIHRoYXQgYXJlIGV4cGVyaWVuY2luZyBhbiBTQVRFTExJVEUgRVJST1Igd2l0aCB0aGVpciBTWFYzMDAuwqAgVGhpcyBDT1VMRCBiZSBkdWUgdG8gYSBvdXRkYXRlZCBTWFYzMDAgdHVuZXIuIFBsZWFzZSBjb25maXJtIGxldHRlciBvbiBhZGFwdGVyLjxiciAvPjxici8+PGJyIC8+PGJyLz48c3BhbiBzdHlsZT0iY29sb3I6ICNmZjAwMDA7Ij5HMTogRGlzY29udGludWVkPC9zcGFuPjxiciAvPjxici8+RzI6IENyZWF0ZWQgYWZ0ZXIgTm92ZW1iZXIgMjAxNTxiciAvPjxici8+PGJyIC8+PGJyLz5JZiBjdXN0b21lciBzdGlsbCBoYXMgYSBHMSBhZGFwdGVyLCBpdCB3aWxsIG5vdCBiZSBjb21wYXRpYmxlIHdpdGggbmV3ZXIgcmFkaW9zLiBJdHMgcmVjb21tZW5kIGZvciB0aGVtIHRvIHJlcGxhY2UgYWRhcHRlciBhbmQgYW50ZW5uYSB3aXRoIHJlcGxhY2VtZW50IFNYVjMwMGQCGg8PFgQfAAUGZzIuanBnHgtOYXZpZ2F0ZVVybAU0L2NvbnRlbnQvbWFzdGVycmVwb3NpdG9yeS9rZW53b29kL2ZhcS91cGxvYWRzL2cyLmpwZ2RkAhwPDxYEHwBkHwMFLi9jb250ZW50L21hc3RlcnJlcG9zaXRvcnkva2Vud29vZC9mYXEvdXBsb2Fkcy9kZAIgD2QWAgIBDxYCHgNzcmMFNC9jb250ZW50L21hc3RlcnJlcG9zaXRvcnkva2Vud29vZC9mYXEvdXBsb2Fkcy9nMi5qcGdkAiIPFgIeC18hSXRlbUNvdW50AgYWDAIBD2QWAmYPFQQmLi5ccHJvZHVjdHBhZ2VzXGticHJvZHVjdHBhZ2UuYXNweD9pZD0GU1hWMzAwDCZkaXY9a2Vud29vZAZTWFYzMDBkAgIPZBYCZg8VBCYuLlxwcm9kdWN0cGFnZXNca2Jwcm9kdWN0cGFnZS5hc3B4P2lkPQZTWFYyMDAMJmRpdj1rZW53b29kBlNYVjIwMGQCAw9kFgJmDxUEJi4uXHByb2R1Y3RwYWdlc1xrYnByb2R1Y3RwYWdlLmFzcHg/aWQ9BlNYVjEwMAwmZGl2PWtlbndvb2QGU1hWMTAwZAIED2QWAmYPFQQmLi5ccHJvZHVjdHBhZ2VzXGticHJvZHVjdHBhZ2UuYXNweD9pZD0LLi4uU0lSSVVTWE0MJmRpdj1rZW53b29kCy4uLlNJUklVU1hNZAIFD2QWAmYPFQQmLi5ccHJvZHVjdHBhZ2VzXGticHJvZHVjdHBhZ2UuYXNweD9pZD0JRE1YMTA1OFhSDCZkaXY9a2Vud29vZAlETVgxMDU4WFJkAgYPZBYCZg8VBCYuLlxwcm9kdWN0cGFnZXNca2Jwcm9kdWN0cGFnZS5hc3B4P2lkPQhETVgxMDM4UwwmZGl2PWtlbndvb2QIRE1YMTAzOFNkZHBARWjt5tgebRlxH7F34vgW87mv",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__VIEWSTATEGENERATOR",
+      "id": "__VIEWSTATEGENERATOR",
+      "placeholder": "",
+      "value": "C91171A5",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "hidden",
+      "name": "__EVENTVALIDATION",
+      "id": "__EVENTVALIDATION",
+      "placeholder": "",
+      "value": "/wEWBQK8vYHUDwL888iOBQLO7tSoBQK6vYvUAgKmjYOaAVApXFwQ0pKbmPpOjA6IOY7awhNV",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "ctl00$topSearchBox",
+      "id": "ctl00_topSearchBox",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "ctl00$btnSearchProducts",
+      "id": "ctl00_btnSearchProducts",
+      "placeholder": "",
+      "value": "Products",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "ctl00$btnSearchHT",
+      "id": "ctl00_btnSearchHT",
+      "placeholder": "",
+      "value": "Hot Topic",
+      "visible": true,
+      "disabled": false
+    }
+  ],
+  "searchBars": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "ctl00$topSearchBox",
+      "id": "ctl00_topSearchBox",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "ctl00$btnSearchProducts",
+      "id": "ctl00_btnSearchProducts",
+      "placeholder": "",
+      "value": "Products",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "input",
+      "type": "submit",
+      "name": "ctl00$btnSearchHT",
+      "id": "ctl00_btnSearchHT",
+      "placeholder": "",
+      "value": "Hot Topic",
+      "visible": true,
+      "disabled": false
+    }
+  ],
+  "fillableFields": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "ctl00$topSearchBox",
+      "id": "ctl00_topSearchBox",
+      "placeholder": "",
+      "value": "",
+      "visible": true,
+      "disabled": false
+    }
+  ]
+}

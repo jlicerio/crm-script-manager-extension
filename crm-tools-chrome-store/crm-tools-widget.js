@@ -13,6 +13,7 @@
         { id: 'search-customer', name: 'Search Customer',   icon: '👤', color: '#3498db', methodName: 'searchCustomerByPhone', domains: ['crm', 'brightpattern'] },
         { id: 'new-customer',    name: 'New Customer',      icon: '➕', color: '#2ecc71', methodName: 'createNewCustomer',      domains: ['crm', 'brightpattern'] },
         { id: 'enhance-models',  name: 'Enhanced Search',   icon: '🔍', color: '#8e44ad', methodName: 'enhanceModelSelectors', domains: ['crm']         },
+        { id: 'kb-chat',         name: 'KB Chat',           icon: '💬', color: '#5D5CDE', methodName: 'openKBChat',           domains: ['crm']         },
         { id: 'check-tools',     name: 'Check Tools',      icon: '🔧', color: '#16a085', methodName: 'checkTools',          domains: ['any'],       devOnly: true },
         { id: 'scan-page',       name: 'Scan Page',         icon: '🔍', color: '#9b59b6', methodName: 'scanPage',            domains: ['any'],       devOnly: true },
         { id: 'extract-form',    name: 'Extract Form IDs',  icon: '📋', color: '#4285f4', methodName: 'extractFormEntryIds',  domains: ['any'],       devOnly: true },
@@ -66,6 +67,17 @@
                     this.scanPage();
                 } else if (message.type === 'AKBS_MODEL_SEARCH') {
                     this.handleAKBSModelSearch(message.model, message.isKenwood);
+                } else if (message.type === 'SCRAPE_AKBS_ISSUES') {
+                    // Scrape KB issues from AKBS product page
+                    const issues = this.scrapeIssuesFromAKBSPage();
+                    const instructionsLink = this.scrapeInstructionsLink();
+                    sendResponse({ issues: issues, instructionsUrl: instructionsLink });
+                    return true; // Keep channel open for async response
+                } else if (message.type === 'SCRAPE_KB_ARTICLE') {
+                    // Scrape article content from KB page
+                    const content = this.scrapeArticleContent();
+                    sendResponse({ content: content });
+                    return true;
                 }
             });
             
@@ -897,6 +909,13 @@
                 }
                 
                 if (phoneField) {
+                    // Check if phone field already has a value - don't override existing data
+                    const existingValue = phoneField.value.trim();
+                    if (existingValue && existingValue.length > 0) {
+                        console.log('[CRM Tools] Phone field already has value, skipping auto-fill:', existingValue);
+                        return;
+                    }
+                    
                     phoneField.value = pendingPhone;
                     phoneField.dispatchEvent(new Event('input', { bubbles: true }));
                     phoneField.dispatchEvent(new Event('change', { bubbles: true }));
@@ -1900,6 +1919,919 @@
             }
         }
         
+        /**
+         * Scrapes knowledge base issues from AKBS product page
+         * Called when content script runs on AKBS ProductPages
+         */
+        scrapeIssuesFromAKBSPage() {
+            const issues = [];
+            
+            console.log('Starting AKBS scrape, page title:', document.title);
+            console.log('Page URL:', window.location.href);
+            
+            // Wait for ListView to load (AKBS uses ASP.NET ListView)
+            const waitForListView = (maxWait = 5000) => {
+                return new Promise((resolve) => {
+                    const startTime = Date.now();
+                    
+                    const check = () => {
+                        const listView = document.querySelector('div[id*="ListView"]');
+                        const issueLinks = document.querySelectorAll('a[id*="hlIssue"]');
+                        
+                        if (issueLinks.length > 0) {
+                            console.log(`Found ${issueLinks.length} issue links!`);
+                            resolve(issueLinks);
+                        } else if (Date.now() - startTime > maxWait) {
+                            console.log('ListView wait timed out');
+                            resolve([]);
+                        } else {
+                            setTimeout(check, 500);
+                        }
+                    };
+                    
+                    check();
+                });
+            };
+            
+            // Get issue links using the specific selector
+            const issueLinks = document.querySelectorAll('a[id*="hlIssue"]');
+            console.log('Direct query found', issueLinks.length, 'issue links');
+            
+            // If no direct links, wait for ListView
+            if (issueLinks.length === 0) {
+                console.log('Waiting for ListView to load...');
+                // Use synchronous wait as fallback
+                const startTime = Date.now();
+                while (Date.now() - startTime < 3000) {
+                    const links = document.querySelectorAll('a[id*="hlIssue"]');
+                    if (links.length > 0) {
+                        console.log('Found after wait:', links.length);
+                        links.forEach(link => {
+                            const row = link.closest('tr') || link.closest('div');
+                            let date = '';
+                            
+                            // Try to get date from row
+                            if (row) {
+                                const dateCell = row.querySelector('td');
+                                if (dateCell) date = dateCell.textContent.trim();
+                            }
+                            
+                            issues.push({
+                                title: link.textContent.trim(),
+                                url: link.href,
+                                date: date
+                            });
+                        });
+                        return issues;
+                    }
+                }
+            }
+            
+            // Process found links
+            issueLinks.forEach(link => {
+                const row = link.closest('tr') || link.closest('div');
+                let date = '';
+                
+                // Try to get date from row
+                if (row) {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length > 0) {
+                        date = cells[0].textContent.trim();
+                    }
+                }
+                
+                issues.push({
+                    title: link.textContent.trim(),
+                    url: link.href,
+                    date: date
+                });
+            });
+            
+            console.log(`Scraped ${issues.length} KB issues from AKBS page`);
+            return issues;
+        }
+        
+        /**
+         * Scrapes the Instructions link from AKBS product page
+         */
+        scrapeInstructionsLink() {
+            const instructionsLink = document.querySelector('a#ctl00_ContentPlaceHolder1_hlInstructions');
+            console.log('Checking for instructions link, found:', instructionsLink);
+            if (instructionsLink && instructionsLink.href) {
+                console.log('Found instructions link:', instructionsLink.href);
+                return instructionsLink.href;
+            }
+            // Also try with partial id match
+            const altLink = document.querySelector('a[id*="hlInstructions"]');
+            console.log('Alt link check:', altLink);
+            if (altLink && altLink.href) {
+                return altLink.href;
+            }
+            return null;
+        }
+        
+        /**
+         * Scrapes article content from KB page for preview
+         */
+        scrapeArticleContent() {
+            let content = '';
+            
+            // Try common article content selectors
+            const contentSelectors = [
+                'div[id*="ArticleContent"]',
+                'div[id*="Content"]',
+                'div.content',
+                'article',
+                'div.article-body',
+                'div[id*="body"]'
+            ];
+            
+            for (const selector of contentSelectors) {
+                const el = document.querySelector(selector);
+                if (el && el.innerHTML) {
+                    content = el.innerHTML;
+                    break;
+                }
+            }
+            
+            // If no content found, try getting all paragraph text
+            if (!content) {
+                const paragraphs = document.querySelectorAll('p');
+                if (paragraphs.length > 0) {
+                    content = Array.from(paragraphs)
+                        .map(p => p.innerHTML)
+                        .join('<br><br>');
+                }
+            }
+            
+            // Clean up absolute URLs to relative for better display
+            if (content) {
+                content = content.replace(/href="\//g, 'href="https://www.akbs.net/');
+                content = content.replace(/src="\//g, 'src="https://www.akbs.net/');
+                
+                // Fix malformed URLs where href contains raw HTML like: <a href=http://url.com>text
+                // This pattern catches <a href=URL> where URL doesn't have surrounding quotes
+                content = content.replace(/href=([^\s"'>]+)/g, (match, url) => {
+                    // If the URL looks malformed (contains > or <), try to extract just the URL part
+                    if (url.includes('>') || url.includes('<')) {
+                        const cleanUrl = url.split('>')[0].split('<')[0];
+                        return `href="${cleanUrl}"`;
+                    }
+                    return `href="${url}"`;
+                });
+            }
+            
+            return content || '<p>No article content found.</p>';
+        }
+        
+        /**
+         * Opens KB Chat - a chat pill that displays AKBS knowledge base links
+         * for the currently selected model in the CRM form
+         */
+        openKBChat() {
+            // Check if chat already exists
+            const existingChat = document.getElementById('kbChatBubble');
+            if (existingChat) {
+                existingChat.remove();
+                return;
+            }
+            
+            // Detect model from CRM form
+            const modelDropdown = document.getElementById('model_c');
+            let currentModel = '';
+            if (modelDropdown) {
+                const selectedOption = modelDropdown.options[modelDropdown.selectedIndex];
+                currentModel = selectedOption ? selectedOption.text : '';
+            }
+            
+            // Detect account type (Kenwood or JVC) - determines which AKBS search to use
+            const accountTypeSelect = document.getElementById('account_type_c');
+            let accountType = '';
+            let isKenwood = false;
+            if (accountTypeSelect) {
+                accountType = accountTypeSelect.value || accountTypeSelect.options[accountTypeSelect.selectedIndex]?.text || '';
+                console.log('Account type raw value:', accountType);
+                // Check for Kenwood specifically - case insensitive, otherwise default to JVC
+                const kenwoodPatterns = ['kenwood', 'ken', 'kw'];
+                const jvcPatterns = ['jvc', 'jvcKenwood'];
+                const lowerAccountType = accountType.toLowerCase();
+                isKenwood = kenwoodPatterns.some(p => lowerAccountType.includes(p)) && !jvcPatterns.some(p => lowerAccountType.includes(p));
+                console.log('isKenwood determined:', isKenwood, 'from:', accountType);
+            }
+            
+            // Create persistent bubble pill
+            const bubblePill = document.createElement('div');
+            bubblePill.id = 'kbChatBubble';
+            bubblePill.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: linear-gradient(135deg, #5D5CDE 0%, #7B7BEB 100%);
+                color: white;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 10002;
+                box-shadow: 0 4px 16px rgba(93, 92, 222, 0.4);
+                transition: transform 0.2s, box-shadow 0.2s;
+            `;
+            bubblePill.innerHTML = `<span style="font-size: 24px;">💬</span>`;
+            
+            bubblePill.addEventListener('mouseenter', () => {
+                bubblePill.style.transform = 'scale(1.1)';
+            });
+            bubblePill.addEventListener('mouseleave', () => {
+                bubblePill.style.transform = 'scale(1)';
+            });
+            
+            document.body.appendChild(bubblePill);
+            
+            // Click to open full chat - re-detect account type at click time
+            bubblePill.addEventListener('click', () => {
+                bubblePill.remove();
+                
+                // Re-detect account type at click time
+                const accountTypeSelect = document.getElementById('account_type_c');
+                let currentIsKenwood = isKenwood;
+                
+                if (accountTypeSelect) {
+                    const accountType = accountTypeSelect.value || accountTypeSelect.options[accountTypeSelect.selectedIndex]?.text || '';
+                    const kenwoodPatterns = ['kenwood', 'ken', 'kw'];
+                    const jvcPatterns = ['jvcKenwood'];
+                    const lowerAccountType = accountType.toLowerCase();
+                    currentIsKenwood = kenwoodPatterns.some(p => lowerAccountType.includes(p)) && !jvcPatterns.some(p => lowerAccountType.includes(p));
+                }
+                
+                this.openKBChatFull(currentModel, currentIsKenwood);
+            });
+        }
+        
+        openKBChatFull(currentModel, isKenwood) {
+            
+            // Create chat bubble - aligned with widget button on same Y axis
+            const chatBubble = document.createElement('div');
+            chatBubble.id = 'kbChatBubble';
+            chatBubble.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                width: 380px;
+                max-height: 500px;
+                background: white;
+                border-radius: 16px;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+                z-index: 10002;
+                overflow: hidden;
+                font-family: system-ui, -apple-system, sans-serif;
+                display: flex;
+                flex-direction: column;
+                animation: slideInUp 0.3s ease;
+            `;
+            
+            // Header
+            const header = document.createElement('div');
+            header.style.cssText = `
+                background: linear-gradient(135deg, #5D5CDE 0%, #7B7BEB 100%);
+                color: white;
+                padding: 14px 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: move;
+            `;
+            header.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 18px;">💬</span>
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;">KB Chat</div>
+                        <div style="font-size: 11px; opacity: 0.85;">AKBS Knowledge Base</div>
+                    </div>
+                </div>
+            `;
+            
+            // Close button
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '✕';
+            closeBtn.style.cssText = `
+                background: rgba(255,255,255,0.2);
+                border: none;
+                color: white;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                cursor: pointer;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            closeBtn.addEventListener('click', () => {
+                chatBubble.remove();
+                // Recreate the bubble pill for minimize functionality
+                const bubblePill = document.createElement('div');
+                bubblePill.id = 'kbChatBubble';
+                bubblePill.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px;
+                    background: linear-gradient(135deg, #5D5CDE 0%, #7B7BEB 100%);
+                    color: white;
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    z-index: 10002;
+                    box-shadow: 0 4px 16px rgba(93, 92, 222, 0.4);
+                    transition: transform 0.2s, box-shadow 0.2s;
+                `;
+                bubblePill.innerHTML = `<span style="font-size: 24px;">💬</span>`;
+                
+                bubblePill.addEventListener('mouseenter', () => {
+                    bubblePill.style.transform = 'scale(1.1)';
+                });
+                bubblePill.addEventListener('mouseleave', () => {
+                    bubblePill.style.transform = 'scale(1)';
+                });
+                
+                document.body.appendChild(bubblePill);
+                
+                // Click to reopen full chat - re-detect account type
+                bubblePill.addEventListener('click', () => {
+                    bubblePill.remove();
+                    
+                    const accountTypeSelect = document.getElementById('account_type_c');
+                    let currentIsKenwood = isKenwood;
+                    
+                    if (accountTypeSelect) {
+                        const accountType = accountTypeSelect.value || accountTypeSelect.options[accountTypeSelect.selectedIndex]?.text || '';
+                        const kenwoodPatterns = ['kenwood', 'ken', 'kw'];
+                        const jvcPatterns = ['jvcKenwood'];
+                        const lowerAccountType = accountType.toLowerCase();
+                        currentIsKenwood = kenwoodPatterns.some(p => lowerAccountType.includes(p)) && !jvcPatterns.some(p => lowerAccountType.includes(p));
+                    }
+                    
+                    this.openKBChatFull(currentModel, currentIsKenwood);
+                });
+            });
+            header.appendChild(closeBtn);
+            
+            // Model info bar with account type indicator and search
+            const modelBar = document.createElement('div');
+            modelBar.style.cssText = `
+                background: ${isKenwood ? '#e8f5e9' : '#e3f2fd'};
+                padding: 10px 16px;
+                border-bottom: 1px solid ${isKenwood ? '#c8e6c9' : '#bbdefb'};
+                font-size: 13px;
+                color: #495057;
+            `;
+            
+            // Create model search input with autocomplete
+            const modelInput = document.createElement('input');
+            modelInput.type = 'text';
+            modelInput.id = 'kbChatModelInput';
+            modelInput.placeholder = currentModel || 'Enter model name (e.g., DMX1057)...';
+            modelInput.value = currentModel || '';
+            modelInput.setAttribute('list', 'kbChatModelSuggestions');
+            modelInput.style.cssText = `
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                font-size: 13px;
+                margin-bottom: 8px;
+                box-sizing: border-box;
+            `;
+            
+            // Create datalist for autocomplete suggestions from CRM dropdown
+            const suggestionsList = document.createElement('datalist');
+            suggestionsList.id = 'kbChatModelSuggestions';
+            
+            const crmModelDropdown = document.getElementById('model_c');
+            if (crmModelDropdown) {
+                Array.from(crmModelDropdown.options).forEach(opt => {
+                    if (opt.value && opt.text && opt.text.trim() !== 'Select Correct Model' && opt.text.trim() !== '') {
+                        const option = document.createElement('option');
+                        option.value = opt.text.trim();
+                        suggestionsList.appendChild(option);
+                    }
+                });
+            }
+            
+            // Account type toggle
+            const typeToggle = document.createElement('div');
+            typeToggle.style.cssText = `
+                display: flex;
+                gap: 12px;
+                margin-bottom: 8px;
+                padding: 8px 12px;
+                background: rgba(0,0,0,0.03);
+                border-radius: 8px;
+            `;
+            typeToggle.innerHTML = `
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 10px; border-radius: 6px; transition: background 0.2s; ${isKenwood ? 'background: rgba(93, 92, 222, 0.15);' : ''}" onmouseover="this.style.background='rgba(93, 92, 222, 0.1)'" onmouseout="this.style.background='${isKenwood ? 'rgba(93, 92, 222, 0.15)' : 'transparent'}'">
+                    <input type="radio" name="kbChatDivision" value="kenwood" ${isKenwood ? 'checked' : ''} style="accent-color: #5D5CDE; width: 16px; height: 16px; cursor: pointer;">
+                    <span style="font-weight: ${isKenwood ? '600' : '400'}; color: ${isKenwood ? '#5D5CDE' : '#666'};">🔵 Kenwood</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 10px; border-radius: 6px; transition: background 0.2s; ${!isKenwood ? 'background: rgba(93, 92, 222, 0.15);' : ''}" onmouseover="this.style.background='rgba(93, 92, 222, 0.1)'" onmouseout="this.style.background='${!isKenwood ? 'rgba(93, 92, 222, 0.15)' : 'transparent'}'">
+                    <input type="radio" name="kbChatDivision" value="jvc" ${!isKenwood ? 'checked' : ''} style="accent-color: #5D5CDE; width: 16px; height: 16px; cursor: pointer;">
+                    <span style="font-weight: ${!isKenwood ? '600' : '400'}; color: ${!isKenwood ? '#5D5CDE' : '#666'};">🟢 JVC</span>
+                </label>
+            `;
+            
+            modelBar.appendChild(modelInput);
+            modelBar.appendChild(suggestionsList);
+            modelBar.appendChild(typeToggle);
+            
+            // Chat content area
+            const content = document.createElement('div');
+            content.style.cssText = `
+                flex: 1;
+                overflow-y: auto;
+                padding: 16px;
+                background: #f8f9fa;
+            `;
+            
+            // Welcome message
+            const welcomeMsg = document.createElement('div');
+            welcomeMsg.style.cssText = `
+                background: white;
+                padding: 16px;
+                border-radius: 12px;
+                margin-bottom: 12px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            `;
+            welcomeMsg.innerHTML = `
+                <p style="margin: 0 0 12px 0; color: #212529; line-height: 1.5;">
+                    👋 Hi! I'll help you find knowledge base articles for AKBS products.
+                </p>
+                <p style="margin: 0 0 12px 0; color: #495057; font-size: 13px; line-height: 1.5;">
+                    Enter a model name and click Search to find KB articles and issues.
+                </p>
+            `;
+            content.appendChild(welcomeMsg);
+            
+            // Search button
+            const searchBtn = document.createElement('button');
+            searchBtn.innerHTML = '🔍 Search AKBS';
+            searchBtn.style.cssText = `
+                width: 100%;
+                padding: 14px;
+                background: linear-gradient(135deg, #5D5CDE 0%, #7B7BEB 100%);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                transition: transform 0.2s, box-shadow 0.2s;
+            `;
+            
+            // Loading state
+            const loadingDiv = document.createElement('div');
+            loadingDiv.style.cssText = `
+                display: none;
+                text-align: center;
+                padding: 20px;
+                color: #6c757d;
+            `;
+            loadingDiv.innerHTML = '⏳ Searching AKBS...';
+            
+            // Results container
+            const resultsDiv = document.createElement('div');
+            resultsDiv.style.cssText = `
+                margin-top: 12px;
+                display: none;
+            `;
+            
+            searchBtn.addEventListener('click', () => {
+                searchBtn.style.display = 'none';
+                loadingDiv.style.display = 'block';
+                
+                // Get model from input and division from radio
+                const modelInput = document.getElementById('kbChatModelInput');
+                let model = modelInput ? modelInput.value.trim() : currentModel;
+                
+                // Clean up model name - remove prefixes like "Ken_", "JVC_" etc for AKBS search
+                if (model) {
+                    model = model.replace(/^(Ken|JVC|Pyle|iSimple|PAC|Boss|Aura|Bazooka|Mountie)[\s_-]*/i, '');
+                    console.log('Cleaned model name for AKBS:', model);
+                }
+                const divisionRadio = document.querySelector('input[name="kbChatDivision"]:checked');
+                const division = divisionRadio ? divisionRadio.value : (isKenwood ? 'kenwood' : 'jvc');
+                const isKenwoodInput = division === 'kenwood';
+                
+                console.log('Searching for model:', model, 'division:', division);
+                
+                // Scrape AKBS in background and display results without leaving CRM
+                this.scrapeAKBSIssues(model, isKenwoodInput, resultsDiv, loadingDiv, searchBtn);
+            });
+            
+            content.appendChild(searchBtn);
+            content.appendChild(loadingDiv);
+            content.appendChild(resultsDiv);
+            
+            // Assemble
+            chatBubble.appendChild(header);
+            chatBubble.appendChild(modelBar);
+            chatBubble.appendChild(content);
+            document.body.appendChild(chatBubble);
+            
+            // Make draggable with position memory
+            this.makeDraggable(header, chatBubble, 'kbChatBubble_position');
+            
+            // Auto-search if model was detected from CRM
+            if (currentModel) {
+                setTimeout(() => {
+                    searchBtn.click();
+                }, 500);
+            }
+            
+            this.showTemporaryMessage('KB Chat opened');
+        }
+        
+        makeDraggable(header, element, storageKey = null) {
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
+            
+            header.addEventListener('mousedown', (e) => {
+                if (e.target.tagName === 'BUTTON') return;
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                const rect = element.getBoundingClientRect();
+                startLeft = rect.left;
+                startTop = rect.top;
+                element.style.right = 'auto';
+                element.style.bottom = 'auto';
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                let newLeft = startLeft + dx;
+                let newTop = startTop + dy;
+                newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - element.offsetWidth));
+                newTop = Math.max(0, Math.min(newTop, window.innerHeight - element.offsetHeight));
+                element.style.left = newLeft + 'px';
+                element.style.top = newTop + 'px';
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isDragging && storageKey) {
+                    // Save position to chrome.storage.local
+                    const rect = element.getBoundingClientRect();
+                    const saveObj = { left: rect.left, top: rect.top };
+                    chrome.storage.local.set({ [storageKey]: saveObj });
+                }
+                isDragging = false;
+            });
+            
+            // Load saved position
+            if (storageKey) {
+                chrome.storage.local.get([storageKey], (result) => {
+                    if (result[storageKey]) {
+                        const pos = result[storageKey];
+                        element.style.left = pos.left + 'px';
+                        element.style.top = pos.top + 'px';
+                        element.style.right = 'auto';
+                        element.style.bottom = 'auto';
+                    }
+                });
+            }
+        }
+        
+        /**
+         * Scrapes AKBS for issues/articles related to a model
+         * Opens in background tab, scrapes, and displays results without leaving CRM
+         */
+        scrapeAKBSIssues(model, isKenwood, resultsDiv, loadingDiv, searchBtn) {
+            const akbsBaseUrl = 'http://akbs.eastus2.cloudapp.azure.com';
+            
+            // Build the product page URL with model parameter
+            // Based on productpage.txt structure: KBProductPage.aspx?id={model}&div={kenwood|jvc}
+            const division = isKenwood ? 'kenwood' : 'jvc';
+            const productUrl = `${akbsBaseUrl}/ProductPages/KBProductPage.aspx?id=${encodeURIComponent(model)}&div=${division}`;
+            
+            console.log('Scraping AKBS:', productUrl);
+            
+            // Send message to background script to handle tab creation
+            chrome.runtime.sendMessage({
+                action: 'scrapeAKBSIssues',
+                url: productUrl,
+                model: model
+            }, (response) => {
+                console.log('Scrape response:', response);
+                loadingDiv.style.display = 'none';
+                resultsDiv.style.display = 'block';
+                
+                if (response && response.success && response.issues && response.issues.length > 0) {
+                    this.displayKBIssues(response.issues, resultsDiv, isKenwood, response.instructionsUrl, model);
+                    
+                    // Save successful model+division to chrome.storage.local for future reference
+                    chrome.storage.local.get(['kbModelCache'], (result) => {
+                        const cache = result.kbModelCache || {};
+                        cache[model.toUpperCase()] = { division: division, lastUsed: Date.now() };
+                        chrome.storage.local.set({ kbModelCache: cache });
+                        console.log('Saved model cache:', model, '->', division);
+                    });
+                } else if (response && response.issues && response.issues.length > 0) {
+                    // Sometimes response format differs
+                    this.displayKBIssues(response.issues, resultsDiv, isKenwood, response.instructionsUrl, model);
+                    
+                    // Save successful model+division
+                    chrome.storage.local.get(['kbModelCache'], (result) => {
+                        const cache = result.kbModelCache || {};
+                        cache[model.toUpperCase()] = { division: division, lastUsed: Date.now() };
+                        chrome.storage.local.set({ kbModelCache: cache });
+                    });
+                } else {
+                    console.log('No issues found in response:', response);
+                    resultsDiv.innerHTML = `
+                        <div style="background: #f8d7da; padding: 12px; border-radius: 8px; font-size: 13px; color: #721c24; margin-bottom: 12px;">
+                            📭 No knowledge base articles found for <strong>${model}</strong>.
+                        </div>
+                        <p style="font-size: 13px; color: #6c757d; margin: 0 0 12px 0;">
+                            Try selecting a different model or search manually on AKBS.
+                        </p>
+                        <a href="${productUrl}" target="_blank" style="color: #5D5CDE; font-size: 13px;">Open AKBS manually →</a>
+                    `;
+                }
+                
+                searchBtn.style.display = 'flex';
+            });
+        }
+        
+        /**
+         * Displays KB issues in the results container
+         */
+        displayKBIssues(issues, container, isKenwood, instructionsUrl = null, model = '') {
+            // Inject preview window styles
+            const styleEl = document.createElement('style');
+            styleEl.textContent = `
+                .kb-issue-item { position: relative; cursor: pointer; }
+                .kb-issue-item:hover { background: #f8f9fa; }
+                .kb-issue-link:hover { background: #f0f4ff; }
+                .kb-issue-preview-btn {
+                    display: inline-block;
+                    margin-top: 6px;
+                    padding: 4px 10px;
+                    background: #5D5CDE;
+                    color: white;
+                    border-radius: 4px;
+                    font-size: 11px;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+                .kb-issue-preview-btn:hover { background: #4746b8; }
+                .kb-preview-window {
+                    display: none;
+                    position: fixed;
+                    width: 500px;
+                    height: 450px;
+                    background: white;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                    z-index: 100001;
+                    overflow: hidden;
+                }
+                .kb-preview-header {
+                    padding: 12px 16px;
+                    background: linear-gradient(135deg, #5D5CDE 0%, #7B7BEB 100%);
+                    color: white;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-weight: 600;
+                }
+                .kb-preview-close {
+                    cursor: pointer;
+                    font-size: 24px;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.2);
+                }
+                .kb-preview-close:hover { background: rgba(255,255,255,0.3); }
+                .kb-preview-content {
+                    height: calc(100% - 50px);
+                    overflow-y: auto;
+                    padding: 16px;
+                    line-height: 1.6;
+                    font-size: 14px;
+                }
+                .kb-preview-loading {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    color: #666;
+                    font-size: 16px;
+                }
+            `;
+            document.head.appendChild(styleEl);
+            
+            const issuesHtml = issues.map((issue, idx) => `
+                <div class="kb-issue-item" data-url="${issue.url}" data-index="${idx}" style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); border-left: 3px solid ${isKenwood ? '#1976d2' : '#388e3c'};">
+                    <a href="${issue.url}" target="_blank" class="kb-issue-link" style="color: #212529; text-decoration: none; font-weight: 600; display: block; margin-bottom: 4px;" title="${issue.title}">
+                        ${issue.title}
+                    </a>
+                    ${issue.date ? `<span style="font-size: 11px; color: #6c757d;">📅 ${issue.date}</span>` : ''}
+                    <a href="#" class="kb-issue-preview-btn" data-url="${issue.url}" data-index="${idx}">👁️ Preview</a>
+                </div>
+                <div class="kb-article-preview" id="kb-preview-${idx}"></div>
+            `).join('');
+            
+            container.innerHTML = issuesHtml;
+            
+            // Attach click handlers to preview buttons using setTimeout to ensure DOM is ready
+            setTimeout(() => {
+                const previewBtns = document.querySelectorAll('.kb-issue-preview-btn');
+                console.log('[CRM Widget] Found', previewBtns.length, 'preview buttons');
+                
+                previewBtns.forEach(btn => {
+                    // Remove old listeners by cloning
+                    const newBtn = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(newBtn, btn);
+                    
+                    console.log('[CRM Widget] Attaching click to:', newBtn.dataset.url);
+                    newBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const url = newBtn.dataset.url;
+                        console.log('[CRM Widget] Preview clicked, URL:', url);
+                        this.openArticlePreview(url);
+                    });
+                });
+            }, 100);
+            
+            // Attach click handlers to article links (open in new tab)
+            container.querySelectorAll('.kb-issue-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Let default behavior work (opens in new tab)
+                });
+            });
+            
+            const instructionsHtml = instructionsUrl ? `
+                <div style="margin-bottom: 12px; padding: 10px; background: linear-gradient(135deg, #5D5CDE 0%, #7B7BEB 100%); border-radius: 8px;">
+                    <a href="${instructionsUrl}" target="_blank" style="color: white; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        📖 View Instructions
+                    </a>
+                </div>
+            ` : '';
+            
+            // Search engine buttons with SVG logos
+            const googleLogoSvg = `<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#fff" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#fff" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#fff" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#fff" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>`;
+            const bingLogoSvg = `<svg width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="#008373" rx="4"/><path fill="#fff" d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/><circle fill="#fff" cx="9" cy="10" r="1.5"/><circle fill="#fff" cx="15" cy="10" r="1.5"/><path fill="#fff" d="M12 17.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>`;
+            
+            const searchButtonsHtml = model ? `
+                <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                    <a href="https://www.google.com/search?q=${encodeURIComponent(model + ' Kenwood')}" target="_blank" style="flex: 1; min-width: 100px; padding: 8px 12px; background: #4285f4; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 600; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        ${googleLogoSvg} Google
+                    </a>
+                    <a href="https://www.bing.com/search?q=${encodeURIComponent(model + ' Kenwood')}" target="_blank" style="flex: 1; min-width: 100px; padding: 8px 12px; background: #008373; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 600; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        ${bingLogoSvg} Bing
+                    </a>
+                </div>
+            ` : '';
+            
+            container.innerHTML = `
+                <div style="margin-bottom: 12px;">
+                    <strong style="color: #212529;">📚 Knowledge Base Articles (${issues.length})</strong>
+                </div>
+                ${searchButtonsHtml}
+                ${instructionsHtml}
+                ${issuesHtml}
+                <p style="font-size: 12px; color: #6c757d; margin-top: 12px; text-align: center;">
+                    Click an article to open it in a new tab
+                </p>
+            `;
+        }
+        
+        openArticlePreview(url) {
+            console.log('[CRM Widget] openArticlePreview called with URL:', url);
+            const self = this;
+            
+            let previewWindow = document.querySelector('.kb-preview-window');
+            const content = previewWindow ? previewWindow.querySelector('.kb-preview-content') : null;
+            
+            if (!previewWindow) {
+                previewWindow = document.createElement('div');
+                previewWindow.className = 'kb-preview-window';
+                previewWindow.innerHTML = `
+                    <div class="kb-preview-header">
+                        <span>📄 Article</span>
+                        <span class="kb-preview-close">×</span>
+                    </div>
+                    <div class="kb-preview-content"></div>
+                `;
+                document.body.appendChild(previewWindow);
+                previewWindow.querySelector('.kb-preview-close').addEventListener('click', () => self.closeArticlePreview());
+                
+                // Make preview window draggable with position memory
+                const previewHeader = previewWindow.querySelector('.kb-preview-header');
+                this.makeDraggable(previewHeader, previewWindow, 'kbPreviewWindow_position');
+            }
+            
+            // Find saved position or default position
+            chrome.storage.local.get(['kbPreviewWindow_position'], (result) => {
+                if (result.kbPreviewWindow_position) {
+                    const pos = result.kbPreviewWindow_position;
+                    previewWindow.style.left = pos.left + 'px';
+                    previewWindow.style.top = pos.top + 'px';
+                    previewWindow.style.right = 'auto';
+                    previewWindow.style.bottom = 'auto';
+                } else {
+                    // Default: position next to chat window
+                    const chatWindow = document.querySelector('.kb-chat-container');
+                    
+                    if (chatWindow) {
+                        const chatRect = chatWindow.getBoundingClientRect();
+                        previewWindow.style.top = chatRect.top + 'px';
+                        previewWindow.style.left = (chatRect.right + 20) + 'px';
+                    } else {
+                        previewWindow.style.top = '100px';
+                        previewWindow.style.left = 'auto';
+                        previewWindow.style.right = '20px';
+                    }
+                }
+                
+                previewWindow.style.width = '500px';
+                previewWindow.style.height = '450px';
+                previewWindow.style.display = 'flex';
+                previewWindow.style.flexDirection = 'column';
+            });
+            
+            const contentEl = previewWindow.querySelector('.kb-preview-content');
+            contentEl.innerHTML = '<div class="kb-preview-loading">⏳ Loading article...</div>';
+            
+            chrome.runtime.sendMessage({
+                action: 'scrapeKBArticle',
+                url: url
+            }, response => {
+                console.log('[CRM Widget] scrapeKBArticle response:', response);
+                if (response && response.success && response.content) {
+                    contentEl.innerHTML = response.content;
+                    
+                    // Make all links in article content open in new tab
+                    contentEl.querySelectorAll('a').forEach(link => {
+                        link.setAttribute('target', '_blank');
+                        link.setAttribute('rel', 'noopener noreferrer');
+                    });
+                    
+                    // Also intercept clicks on any element to catch malformed links
+                    contentEl.addEventListener('click', (e) => {
+                        const anchor = e.target.closest('a');
+                        if (anchor) {
+                            e.preventDefault();
+                            let linkUrl = anchor.getAttribute('href');
+                            
+                            // Clean up malformed URLs - if href contains > or < remove everything from that point
+                            if (linkUrl && (linkUrl.includes('>') || linkUrl.includes('<'))) {
+                                linkUrl = linkUrl.split('>')[0].split('<')[0];
+                            }
+                            
+                            // Try to extract URL from text content if href is malformed
+                            if (!linkUrl || linkUrl === '#' || linkUrl.includes('href=')) {
+                                const textContent = anchor.textContent || '';
+                                const urlMatch = textContent.match(/https?:\/\/[^\s>]+/);
+                                if (urlMatch) {
+                                    linkUrl = urlMatch[0].split('>')[0].split('<')[0];
+                                }
+                            }
+                            
+                            if (linkUrl && linkUrl.startsWith('http')) {
+                                window.open(linkUrl, '_blank', 'noopener,noreferrer');
+                            }
+                        }
+                    });
+                } else {
+                    contentEl.innerHTML = '<p>Unable to load article preview. <a href="' + url + '" target="_blank">Open in new tab</a></p>';
+                }
+            });
+        }
+        
+        closeArticlePreview() {
+            const previewWindow = document.querySelector('.kb-preview-window');
+            if (previewWindow) {
+                previewWindow.style.display = 'none';
+            }
+        }
+        
         createModelSearchInterface(dropdown, addAKBSButton = false) {
             // Mark as enhanced
             dropdown.dataset.enhanced = 'true';
@@ -1964,7 +2896,8 @@
                     // Get account type to determine search method
                     const accountTypeSelect = document.getElementById('account_type_c');
                     const accountType = accountTypeSelect ? accountTypeSelect.value : '';
-                    const isKenwood = accountType.includes('Ken') || accountType.includes('KW');
+                    const kenwoodPatterns = ['ken', 'kw', 'kenwood'];
+                    const isKenwood = kenwoodPatterns.some(p => accountType.toLowerCase().includes(p));
                     
                     // Get the model from search input or dropdown
                     let modelQuery = searchInput.value.trim() || dropdown.value;
@@ -2504,12 +3437,106 @@
             from { opacity: 1; transform: translateY(0); }
             to { opacity: 0; transform: translateY(-20px); }
         }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     `;
     document.head.appendChild(style);
 
     // Initialize the widget
     const crmTools = new CRMToolsWidget();
     window.crmTools = crmTools; // Make globally accessible
+
+    // Auto-create persistent KB Chat bubble on CRM pages
+    const autoCreateBubble = () => {
+        const modelDropdown = document.getElementById('model_c');
+        if (modelDropdown) {
+            const currentModel = modelDropdown.options[modelDropdown.selectedIndex]?.text || '';
+            if (currentModel) {
+                // Remove existing bubble if any
+                const existingBubble = document.getElementById('kbChatBubble');
+                if (existingBubble) existingBubble.remove();
+                
+                // Determine division from account_type_c or chrome.storage.local cache
+                const accountTypeSelect = document.getElementById('account_type_c');
+                let isKenwood = false;
+                
+                if (accountTypeSelect) {
+                    const accountType = accountTypeSelect.value || accountTypeSelect.options[accountTypeSelect.selectedIndex]?.text || '';
+                    const kenwoodPatterns = ['kenwood', 'ken', 'kw'];
+                    const jvcPatterns = ['jvcKenwood'];
+                    const lowerAccountType = accountType.toLowerCase();
+                    isKenwood = kenwoodPatterns.some(p => lowerAccountType.includes(p)) && !jvcPatterns.some(p => lowerAccountType.includes(p));
+                }
+                
+                // Check chrome.storage.local for cached model+division
+                chrome.storage.local.get(['kbModelCache'], (result) => {
+                    const cache = result.kbModelCache || {};
+                    const cachedModel = cache[currentModel.toUpperCase()];
+                    if (cachedModel) {
+                        isKenwood = cachedModel.division === 'kenwood';
+                        console.log('Using cached division for', currentModel, ':', cachedModel.division);
+                    }
+                    
+                    // Create persistent bubble pill
+                    const bubblePill = document.createElement('div');
+                    bubblePill.id = 'kbChatBubble';
+                    bubblePill.style.cssText = `
+                        position: fixed;
+                        bottom: 20px;
+                        left: 20px;
+                        background: linear-gradient(135deg, #5D5CDE 0%, #7B7BEB 100%);
+                        color: white;
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        z-index: 10002;
+                        box-shadow: 0 4px 16px rgba(93, 92, 222, 0.4);
+                        transition: transform 0.2s, box-shadow 0.2s;
+                    `;
+                    bubblePill.innerHTML = `<span style="font-size: 24px;">💬</span>`;
+                    
+                    bubblePill.addEventListener('mouseenter', () => {
+                        bubblePill.style.transform = 'scale(1.1)';
+                    });
+                    bubblePill.addEventListener('mouseleave', () => {
+                        bubblePill.style.transform = 'scale(1)';
+                    });
+                    
+                    document.body.appendChild(bubblePill);
+                    
+                    // Click to open full chat - re-detect account type at click time
+                    bubblePill.addEventListener('click', () => {
+                        bubblePill.remove();
+                        
+                        // Re-detect account type at click time (not creation time)
+                        const accountTypeSelect = document.getElementById('account_type_c');
+                        let currentIsKenwood = isKenwood; // fallback to cached value
+                        
+                        if (accountTypeSelect) {
+                            const accountType = accountTypeSelect.value || accountTypeSelect.options[accountTypeSelect.selectedIndex]?.text || '';
+                            const kenwoodPatterns = ['kenwood', 'ken', 'kw'];
+                            const jvcPatterns = ['jvcKenwood'];
+                            const lowerAccountType = accountType.toLowerCase();
+                            currentIsKenwood = kenwoodPatterns.some(p => lowerAccountType.includes(p)) && !jvcPatterns.some(p => lowerAccountType.includes(p));
+                            console.log('Account type re-detected on click:', accountType, '-> isKenwood:', currentIsKenwood);
+                        }
+                        
+                        crmTools.openKBChatFull(currentModel, currentIsKenwood);
+                    });
+                });
+            }
+        }
+    };
+    
+    // Run auto-create after page loads
+    setTimeout(autoCreateBubble, 1000);
 
     // Set up mutation observer to detect new model selectors added dynamically
     const observer = new MutationObserver((mutations) => {
@@ -2536,6 +3563,50 @@
             window.modelRecheckTimeout = setTimeout(() => {
                 crmTools.enhanceModelSelectors({ silent: true });
                 crmTools.setupCallDependencyAutomation();
+                
+                // Auto-create KB Chat bubble when model dropdown appears
+                const modelDropdown = document.getElementById('model_c');
+                if (modelDropdown && !document.getElementById('kbChatBubble')) {
+                    const currentModel = modelDropdown.options[modelDropdown.selectedIndex]?.text || '';
+                    if (currentModel) {
+                        // Create persistent bubble pill
+                        const bubblePill = document.createElement('div');
+                        bubblePill.id = 'kbChatBubble';
+                        bubblePill.style.cssText = `
+                            position: fixed;
+                            bottom: 20px;
+                            left: 20px;
+                            background: linear-gradient(135deg, #5D5CDE 0%, #7B7BEB 100%);
+                            color: white;
+                            width: 60px;
+                            height: 60px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            z-index: 10002;
+                            box-shadow: 0 4px 16px rgba(93, 92, 222, 0.4);
+                            transition: transform 0.2s, box-shadow 0.2s;
+                        `;
+                        bubblePill.innerHTML = `<span style="font-size: 24px;">💬</span>`;
+                        
+                        bubblePill.addEventListener('mouseenter', () => {
+                            bubblePill.style.transform = 'scale(1.1)';
+                        });
+                        bubblePill.addEventListener('mouseleave', () => {
+                            bubblePill.style.transform = 'scale(1)';
+                        });
+                        
+                        document.body.appendChild(bubblePill);
+                        
+                        // Click to open full chat
+                        bubblePill.addEventListener('click', () => {
+                            bubblePill.remove();
+                            crmTools.openKBChatFull(currentModel, false);
+                        });
+                    }
+                }
             }, 500);
         }
     });

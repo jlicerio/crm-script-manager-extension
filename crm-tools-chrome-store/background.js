@@ -69,6 +69,100 @@
                 });
                 return true;
 
+            case 'scrapeAKBSIssues':
+                chrome.tabs.create({ url: request.url, active: false }, (tab) => {
+                    // Function to try sending the scrape message
+                    const tryScrape = (retries = 3) => {
+                        chrome.tabs.sendMessage(tab.id, {
+                            type: 'SCRAPE_AKBS_ISSUES',
+                            model: request.model
+                        }, (response) => {
+                            // Close the background tab
+                            chrome.tabs.remove(tab.id, () => {
+                                if (chrome.runtime.lastError) {
+                                    console.log('[CRM Background] Send message error:', chrome.runtime.lastError.message);
+                                    if (retries > 0) {
+                                        // Retry after delay
+                                        setTimeout(() => tryScrape(retries - 1), 1000);
+                                    } else {
+                                        sendResponse({ success: true, issues: [] });
+                                    }
+                                } else if (response && response.issues) {
+                                    sendResponse({ success: true, issues: response.issues, instructionsUrl: response.instructionsUrl });
+                                } else {
+                                    sendResponse({ success: true, issues: [] });
+                                }
+                            });
+                        });
+                    };
+                    
+                    // Wait for page to load, then wait more for dynamic content
+                    setTimeout(() => {
+                        // First wait for page load
+                        const checkInterval = setInterval(() => {
+                            chrome.tabs.get(tab.id, (tabInfo) => {
+                                if (tabInfo.status === 'complete') {
+                                    clearInterval(checkInterval);
+                                    // Additional wait for ASP.NET UpdatePanels (3 seconds)
+                                    setTimeout(tryScrape, 3000);
+                                }
+                            });
+                        }, 500);
+                        
+                        // Timeout after 15 seconds
+                        setTimeout(() => {
+                            clearInterval(checkInterval);
+                            try {
+                                chrome.tabs.remove(tab.id);
+                            } catch (e) {}
+                            sendResponse({ success: true, issues: [], timeout: true });
+                        }, 15000);
+                    }, 1000); // Initial 1 second delay before starting checks
+                });
+                return true;
+
+            case 'scrapeKBArticle':
+                chrome.tabs.create({ url: request.url, active: false }, (tab) => {
+                    const tryScrape = (retries = 3) => {
+                        chrome.tabs.sendMessage(tab.id, {
+                            type: 'SCRAPE_KB_ARTICLE'
+                        }, (response) => {
+                            chrome.tabs.remove(tab.id, () => {
+                                if (chrome.runtime.lastError) {
+                                    console.log('[CRM Background] Article scrape error:', chrome.runtime.lastError.message);
+                                    if (retries > 0) {
+                                        setTimeout(() => tryScrape(retries - 1), 1000);
+                                    } else {
+                                        sendResponse({ success: false });
+                                    }
+                                } else if (response && response.content) {
+                                    sendResponse({ success: true, content: response.content });
+                                } else {
+                                    sendResponse({ success: false });
+                                }
+                            });
+                        });
+                    };
+                    
+                    setTimeout(() => {
+                        const checkInterval = setInterval(() => {
+                            chrome.tabs.get(tab.id, (tabInfo) => {
+                                if (tabInfo.status === 'complete') {
+                                    clearInterval(checkInterval);
+                                    setTimeout(tryScrape, 2000);
+                                }
+                            });
+                        }, 500);
+                        
+                        setTimeout(() => {
+                            clearInterval(checkInterval);
+                            try { chrome.tabs.remove(tab.id); } catch (e) {}
+                            sendResponse({ success: false });
+                        }, 12000);
+                    }, 1000);
+                });
+                return true;
+
             case 'logAnalytics':
                 // Send analytics to Google Form
                 const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdCDrZT_u8zPRGt9sTZXmI2b9cKlnCVGB-CbqLC8remD3zRdw/formResponse';
