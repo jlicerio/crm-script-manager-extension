@@ -2,6 +2,10 @@
 
 All notable changes to the CRM Tools Chrome Extension are documented here.
 
+## [1.1] - 2026-03-22
+### Fixed
+- Phone number auto-fill now checks if field already has a value before overriding (new customer CRM)
+
 ## [1.0.4] - 2026-03-22
 
 ### Added
