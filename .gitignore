@@ -59,6 +59,9 @@ coverage/
 # Archive (old/deprecated features)
 .Archive/
 
+# External CRM API files (not part of extension)
+crm.nexgenexpert/
+
 # =============================================================================
 # Keep these files
 # =============================================================================
