@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "CRM Script Manager",
   "version": "1.1",
-  "description": "Boost your CRM productivity with essential tools and smart search enhancements!",
+  "description": "Smart SuiteCRM productivity - auto-fills dependent fields, enhances dropdown searches, saves time on daily tasks.",
   "permissions": [
     "storage",
     "activeTab",
